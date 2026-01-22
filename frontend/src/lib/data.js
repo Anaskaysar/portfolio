@@ -3,14 +3,14 @@
 export const projects = [
   {
     id: 1,
-    title: 'Velox Analytics',
-    description: 'Real-time analytics dashboard with customizable widgets, team collaboration, and AI-powered insights.',
-    tech: ['React', 'TypeScript', 'D3.js', 'PostgreSQL'],
-    category: 'fullstack', // 'fullstack', 'frontend', 'backend'
-    link: '#',
-    github: '#',
+    title: 'New Rentoor - Real Estate Agents',
+    description: 'A comprehensive real estate platform featuring a responsive property listing system, admin panel, and user dashboard. Built to streamline property management with features like order tracking and service reviews.',
+    tech: ['React', 'Node.js', 'Express', 'MongoDB', 'Material UI'],
+    category: 'fullstack',
+    link: 'https://new-rentoor-react.web.app/',
+    github: 'https://github.com/Anaskaysar/New-Rentoor-Real-Estate-Agents',
     featured: true,
-    image: '/projects/New_rentoor.png', // optional
+    image: '/projects/New_rentoor.png',
   },
   {
     id: 2,
