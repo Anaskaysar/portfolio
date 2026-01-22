@@ -33,7 +33,7 @@ const ProjectCard = ({ project, index }) => {
           {/* Category Badge (Optional - mostly for Projects page but harmless here) */}
           {project.category && (
             <div className="flex justify-center md:justify-start mb-4">
-              <span className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-violet-100 dark:bg-violet-400/10 text-violet-700 dark:text-violet-400 border border-violet-200 dark:border-violet-400/20">
+              <span className="inline-block px-3 py-1 rounded-full text-xs font-medium  bg-violet-100 dark:bg-violet-400/10 text-violet-700 dark:text-violet-400 border border-violet-200 dark:border-violet-400/20">
                 {project.category === 'fullstack' ? 'Full Stack' : project.category === 'frontend' ? 'Frontend' : 'Backend'}
               </span>
             </div>
@@ -43,7 +43,7 @@ const ProjectCard = ({ project, index }) => {
             {project.title}
           </h3>
           
-          <p className="text-lg text-zinc-600 dark:text-zinc-400 mb-6 leading-relaxed">
+          <p className="text-lg text-zinc-600 dark:text-zinc-400 mb-6 text-justify leading-relaxed">
             {project.description}
           </p>
 
