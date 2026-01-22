@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useTheme } from "../ThemeContext";
-import { personalInfo } from "../lib/data";
-import { MoonIcon, SunIcon } from "../lib/icons";
+import { personalInfo } from "../lib/data.js";
+import { MoonIcon, SunIcon } from "../lib/Icons.jsx";
+import { useTheme } from "../ThemeContext.jsx";
 
 const Navigation = () => {
   const { theme, toggleTheme } = useTheme();

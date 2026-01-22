@@ -1,7 +1,7 @@
-import Contact from "../components/Contact";
-import FeaturedProjects from "../components/FeaturedProjects";
-import Hero from "../components/Hero";
-import WorkExperience from "../components/WorkExperience";
+import Contact from "../components/Contact.jsx";
+import FeaturedProjects from "../components/FeaturedProjects.jsx";
+import Hero from "../components/Hero.jsx";
+import WorkExperience from "../components/WorkExperience.jsx";
 
 const Home = () => {
   return (

@@ -1,4 +1,4 @@
-import { experience } from "../lib/data";
+import { experience } from "../lib/data.js";
 
 const WorkExperience = () => {
   return (

@@ -5,7 +5,7 @@ import Background from "./Pages/Background.jsx";
 import Home from "./Pages/Home.jsx";
 import Projects from "./Pages/Projects.jsx";
 import Research from "./Pages/Research.jsx";
-import { ThemeProvider } from "./ThemeContext";
+import { ThemeProvider } from "./ThemeContext.jsx";
 
 
 function AppContent() {

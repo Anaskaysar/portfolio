@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { projects } from "../lib/data";
-import { ArrowRightIcon } from "../lib/icons";
-import ProjectCard from "./ProjectCard";
+import { projects } from "../lib/data.js";
+import { ArrowRightIcon } from "../lib/Icons.jsx";
+import ProjectCard from "./ProjectCard.jsx";
 
 const FeaturedProjects = () => {
   const featuredProjects = projects.filter(project => project.featured);

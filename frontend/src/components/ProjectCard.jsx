@@ -1,4 +1,4 @@
-import { ExternalLinkIcon, GithubIcon } from "../lib/icons";
+import { ExternalLinkIcon, GithubIcon } from "../lib/Icons.jsx";
 
 const ProjectCard = ({ project, index }) => {
   return (
