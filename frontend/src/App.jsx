@@ -1,11 +1,12 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { ThemeProvider } from "./ThemeContext";
 import Navigation from "./components/Navigation";
-import About from "./pages/About";
-import Background from "./pages/Background";
-import Home from "./pages/Home";
-import Projects from "./pages/Projects";
-import Research from "./pages/Research";
+import About from "./pages/About.jsx";
+import Background from "./pages/Background.jsx";
+import Home from "./pages/Home.jsx";
+import Projects from "./pages/Projects.jsx";
+import Research from "./pages/Research.jsx";
+
 
 function AppContent() {
   return (
