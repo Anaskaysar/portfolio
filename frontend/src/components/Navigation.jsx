@@ -106,70 +106,74 @@ const Navigation = () => {
       </nav>
 
       {/* Mobile Fullscreen Menu */}
-      {open && (
-        <div className="fixed inset-0 z-[60] bg-zinc-950/95 backdrop-blur-md md:hidden">
-          {/* Close Button */}
-          <button
+      {/* Mobile Fullscreen Menu */}
+      <div
+        className={`fixed inset-0 z-[60] bg-zinc-950/95 backdrop-blur-md md:hidden transition-transform duration-300 ease-in-out ${
+          open ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        {/* Close Button */}
+        <button
+          onClick={() => setOpen(false)}
+          className="absolute top-6 right-6 p-3 rounded-lg bg-zinc-800 text-zinc-400 hover:text-white transition"
+          aria-label="Close menu"
+        >
+          ✕
+        </button>
+
+        {/* Menu Links */}
+        <div className="h-full flex flex-col items-center justify-center gap-10 text-center">
+          <Link
+            to="/projects"
             onClick={() => setOpen(false)}
-            className="absolute top-6 right-6 p-3 rounded-lg bg-zinc-800 text-zinc-400 hover:text-white transition"
-            aria-label="Close menu"
+            className={`mobile-menu-link ${
+              isActive("/projects") ? "text-violet-400" : ""
+            }`}
           >
-            ✕
+            Projects
+          </Link>
+
+          <Link
+            to="/background"
+            onClick={() => setOpen(false)}
+            className={`mobile-menu-link ${
+              isActive("/background") ? "text-violet-400" : ""
+            }`}
+          >
+            Background
+          </Link>
+
+          <Link
+            to="/research"
+            onClick={() => setOpen(false)}
+            className={`mobile-menu-link ${
+              isActive("/research") ? "text-violet-400" : ""
+            }`}
+          >
+            Research
+          </Link>
+
+          <Link
+            to="/about"
+            onClick={() => setOpen(false)}
+            className={`mobile-menu-link ${
+              isActive("/about") ? "text-violet-400" : ""
+            }`}
+          >
+            About
+          </Link>
+
+          {/* Theme Toggle */}
+          <button
+            onClick={toggleTheme}
+            className="mt-10 flex items-center gap-3 px-6 py-3 rounded-lg 
+                       bg-zinc-800 text-zinc-300 hover:text-white transition"
+            aria-label="Toggle theme"
+          >
+            {theme === "dark" ? <SunIcon /> : <MoonIcon />}
           </button>
-
-          {/* Menu Links */}
-          <div className="h-full flex flex-col items-center justify-center gap-10 text-center">
-            <Link
-              to="/projects"
-              onClick={() => setOpen(false)}
-              className={`mobile-menu-link ${
-                isActive("/projects") ? "text-violet-400" : ""
-              }`}
-            >
-              Projects
-            </Link>
-
-            <Link
-              to="/background"
-              onClick={() => setOpen(false)}
-              className={`mobile-menu-link ${
-                isActive("/background") ? "text-violet-400" : ""
-              }`}
-            >
-              Background
-            </Link>
-
-            <Link
-              to="/research"
-              onClick={() => setOpen(false)}
-              className={`mobile-menu-link ${
-                isActive("/research") ? "text-violet-400" : ""
-              }`}
-            >
-              Research
-            </Link>
-
-            <Link
-              to="/about"
-              onClick={() => setOpen(false)}
-              className={`mobile-menu-link ${
-                isActive("/about") ? "text-violet-400" : ""
-              }`}
-            >
-              About
-            </Link>
-
-            {/* Theme Toggle */}
-            <button
-              onClick={toggleTheme}
-              className="mt-10 flex items-center gap-3 px-6 py-3 rounded-lg 
-                         bg-zinc-800 text-zinc-300 hover:text-white transition"
-            >
-              {theme === "dark" ? <SunIcon /> : <MoonIcon />}
-            </button>
-          </div>
         </div>
-      )}
+      </div>
     </>
   );
 };

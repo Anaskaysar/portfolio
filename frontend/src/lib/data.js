@@ -3,47 +3,80 @@
 export const projects = [
   {
     id: 1,
-    title: 'New Rentoor - Real Estate Agents',
-    description: 'A comprehensive real estate platform featuring a responsive property listing system, admin panel, and user dashboard. Built to streamline property management with features like order tracking and service reviews.',
+    title: 'EncryptIQ',
+    description: 'Educational platform for learning cryptographic algorithms (AES, RSA) with real-time encryption/decryption demonstrations.',
+    tech: ['React', 'Tailwind CSS', 'Cryptography'],
+    category: 'fullstack',
+    link: '#', // Add live link if available
+    github: 'https://github.com/Anaskaysar/EncryptIQ-Conveys-Intelligence-And-Insight-Into-Encryption',
+    featured: true,
+    image: '/projects/encryptiq.png', // Placeholder
+  },
+  {
+    id: 2,
+    title: 'Travel-X',
+    description: 'A comprehensive tourism website featuring destination booking, user reviews, and a dynamic admin dashboard.',
+    tech: ['React', 'Node.js', 'Express', 'MongoDB', 'Firebase'],
+    category: 'fullstack',
+    link: 'https://travelx-react.web.app/',
+    github: 'https://github.com/Anaskaysar/Travel-X-An-Online-Tourism-Website',
+    featured: true,
+    image: '/projects/travelx.png', // Placeholder
+  },
+  {
+    id: 3,
+    title: 'Doctors Portal',
+    description: 'Medical appointment management system allowing patients to book appointments and doctors to manage schedules.',
+    tech: ['React', 'Material UI', 'Firebase', 'MongoDB', 'Express', 'Node.js'],
+    category: 'fullstack',
+    link: 'https://yours-doctor-3995f.web.app/',
+    github: 'https://github.com/Anaskaysar/Doctors-Portal-ClientSide',
+    featured: true,
+    image: '/projects/doctors.png', // Placeholder
+  },
+  {
+    id: 4,
+    title: 'Fitness Pro',
+    description: 'Responsive health and fitness website with user authentication and workout tracking features.',
+    tech: ['React', 'Firebase', 'Tailwind CSS'],
+    category: 'frontend',
+    link: 'https://fitness-pro-react.web.app/', // Inferred from pattern, verify if possible
+    github: 'https://github.com/Anaskaysar/Fitness-Pro-Responsive-Website-With-Firebase-Authentication',
+    featured: false,
+    image: '/projects/fitness_pro.png', // Placeholder
+  },
+  {
+    id: 5,
+    title: 'Cat vs Dog Classifier',
+    description: 'Convolutional Neural Network (CNN) model trained to classify images of cats and dogs with high accuracy.',
+    tech: ['Python', 'TensorFlow', 'Keras', 'Deep Learning'],
+    category: 'ai-ml',
+    link: '#',
+    github: 'https://github.com/Anaskaysar/Unleashing-the-Power-of-CNNs-Classifying-Cats-and-Dogs',
+    featured: false,
+    image: '/projects/cnn_classifier.png', // Placeholder: Use Architecture Diagram
+  },
+  {
+    id: 6,
+    title: 'MalariAI',
+    description: 'Automated malaria cell segmentation system using Computer Vision and Deep Learning techniques on blood smear images.',
+    tech: ['Python', 'OpenCV', 'Deep Learning', 'Computer Vision'],
+    category: 'ai-ml',
+    link: '#',
+    github: 'https://github.com/Anaskaysar/MalariAI-Automated-Malaria-Cell-Segmentation-from-Blood-Smear-Images',
+    featured: false,
+    image: '/projects/malariai.png', // Placeholder: Use Segmentation Output
+  },
+  {
+    id: 7,
+    title: 'New Rentoor',
+    description: 'A comprehensive real estate platform featuring a responsive property listing system, admin panel, and user dashboard.',
     tech: ['React', 'Node.js', 'Express', 'MongoDB', 'Material UI'],
     category: 'fullstack',
     link: 'https://new-rentoor-react.web.app/',
     github: 'https://github.com/Anaskaysar/New-Rentoor-Real-Estate-Agents',
     featured: true,
     image: '/projects/New_rentoor.png',
-  },
-  {
-    id: 2,
-    title: 'SecureVault',
-    description: 'End-to-end encrypted password manager with biometric auth and secure sharing.',
-    tech: ['React Native', 'Node.js', 'MongoDB'],
-    category: 'fullstack',
-    link: '#',
-    github: '#',
-    featured: true,
-    image: '/projects/New_rentoor.png', // optional
-  },
-  {
-    id: 3,
-    title: 'CodeReview AI',
-    description: 'AI-powered code review assistant that analyzes PRs and suggests improvements.',
-    tech: ['Python', 'FastAPI', 'OpenAI', 'GitHub API'],
-    category: 'backend',
-    link: '#',
-    github: '#',
-    featured: false,
-    image: '/projects/New_rentoor.png', // optional
-  },
-  {
-    id: 4,
-    title: 'Taskflow',
-    description: 'Minimalist task management app with keyboard shortcuts and natural language input.',
-    tech: ['Vue.js', 'Supabase', 'Tailwind'],
-    category: 'frontend',
-    link: '#',
-    github: '#',
-    featured: true,
-    image: '/projects/New_rentoor.png', // optional
   },
 ];
 
@@ -57,6 +90,7 @@ export const personalInfo = {
   social: {
     github: 'https://github.com/anaskaysar',
     linkedin: 'https://www.linkedin.com/in/kaysarulanas/',
+    x: 'https://x.com/KaysarulA12768',
   },
 };
 

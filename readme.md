@@ -1,14 +1,32 @@
 # Kaysarul Anas | Personal Portfolio
 
-A modern, responsive personal portfolio website built with **React**, **Vite**, and **Tailwind CSS v4**. It features a dark/light mode toggle, dynamic project cards, and a clean, professional design.
+A modern, responsive **personal portfolio website** built with **React**, **Vite**, and **Tailwind CSS v4**. Designed to be fast, clean, and professional, the site showcases projects, skills, and experience with a strong focus on UI/UX and responsiveness.
+
+🔗 **Live Repository**: [https://github.com/Anaskaysar/portfolio](https://github.com/Anaskaysar/portfolio)
+
+---
 
 ## 🚀 Tech Stack
 
--   **Frontend**: React 19 (Vite)
--   **Styling**: Tailwind CSS v4
--   **Routing**: React Router DOM v7
--   **Icons**: Custom SVG Components
--   **Deployment**: Vercel / Netlify
+* **Frontend**: React 19 (Vite)
+* **Styling**: Tailwind CSS v4
+* **Routing**: React Router DOM v7
+* **State & Theme**: Context API (Dark / Light Mode)
+* **Icons**: Custom SVG Components
+* **Deployment**: Vercel / Netlify
+
+---
+
+## ✨ Highlights
+
+* ⚡ **Fast & Lightweight** — Powered by Vite for instant reloads
+* 🌗 **Dark / Light Mode** — Auto-detects system preference with manual toggle
+* 📱 **Fully Responsive** — Optimized for mobile, tablet, and desktop
+* 🧩 **Reusable Components** — Clean, modular React architecture
+* 🗂️ **Centralized Data** — Easy content updates via `src/lib/data.js`
+* 🎨 **Modern UI** — Minimal, developer-focused design
+
+---
 
 ## 📂 Project Structure
 
@@ -18,59 +36,86 @@ portfolio-project/
 │   ├── public/         # Static assets (favicons, images)
 │   ├── src/
 │   │   ├── components/ # Reusable UI components (Hero, Projects, etc.)
-│   │   ├── lib/        # Data (data.js) and utility functions
-│   │   ├── Pages/      # Page components (Home, Projects, About, etc.)
-│   │   ├── App.jsx     # Main App component with Routing
-│   │   └── main.jsx    # Entry point
+│   │   ├── lib/        # Centralized data and utility functions
+│   │   ├── pages/      # Page components (Home, Projects, About, etc.)
+│   │   ├── App.jsx     # Main App component with routing
+│   │   └── main.jsx    # Application entry point
 │   └── index.html      # HTML entry point
-├── backend/            # (Future) Django Backend
-└── docs/               # Project Documentation
+├── backend/            # (Planned) Django Backend
+└── docs/               # Project documentation & screenshots
 ```
+
+---
 
 ## 🛠️ Getting Started
 
 ### Prerequisites
 
--   Node.js (v18+ recommended)
--   npm or yarn
+* Node.js (v18+ recommended)
+* npm or yarn
 
 ### Installation
 
-1.  Clone the repository:
-    ```bash
-    git clone https://github.com/Anaskaysar/portfolio.git
-    cd portfolio
-    ```
+1. Clone the repository:
 
-2.  Navigate to the frontend directory:
-    ```bash
-    cd frontend
-    ```
+```bash
+git clone https://github.com/Anaskaysar/portfolio.git
+cd portfolio
+```
 
-3.  Install dependencies:
-    ```bash
-    npm install
-    ```
+2. Navigate to the frontend directory:
 
-4.  Start the development server:
-    ```bash
-    npm run dev
-    ```
+```bash
+cd frontend
+```
 
-5.  Open [http://localhost:5173](http://localhost:5173) in your browser.
+3. Install dependencies:
 
-## 🎨 Features
+```bash
+npm install
+```
 
--   **Dark/Light Mode**: Automatically detects system preference, with a manual toggle.
--   **Responsive Design**: Fully optimized for mobile, tablet, and desktop.
--   **Dynamic Project Cards**: Alternating layout with hover scroll animations.
--   **Centralized Data**: Easy to update content via `src/lib/data.js`.
+4. Start the development server:
+
+```bash
+npm run dev
+```
+
+5. Open the app in your browser:
+
+```text
+http://localhost:5173
+```
+
+---
+
+## 🖼️ Visual Evidence
+
+### Desktop View
+
+![Homepage Desktop View](./docs/pictures/homepage_screenshot.png)
+
+### Mobile View (400px)
+
+![Mobile View](./docs/pictures/mobile_view_screenshot.png)
+
+---
 
 ## 🔜 Future Roadmap
 
--   [ ] **Backend Integration**: Django + PostgreSQL for dynamic content management.
--   [ ] **Admin Dashboard**: A protected route to add/edit projects and experiences.
--   [ ] **Blog Section**: Technical articles and tutorials.
+* [ ] **Backend Integration** — Django + PostgreSQL for dynamic content management
+* [ ] **Admin Dashboard** — Secure admin panel to manage projects and content
+* [ ] **Blog Section** — Technical blogs and tutorials
+* [ ] **SEO Optimization** — Meta tags, Open Graph, and performance tuning
+* [ ] **Animations** — Subtle motion using Framer Motion
+
+---
+
+## 🤝 Contributing
+
+This project is currently public while backend and dynamic data features are under development. Suggestions and feedback are welcome.
+
+---
 
 ## 📄 License
 

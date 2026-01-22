@@ -1,5 +1,5 @@
 import { personalInfo } from "../lib/data.js";
-import { DownloadIcon, GithubIcon, HomeIcon, LinkedInIcon } from "../lib/icons.jsx";
+import { DownloadIcon, GithubIcon, HomeIcon, LinkedInIcon, XIcon } from "../lib/icons.jsx";
 
 // Import SVG assets
 import djangoIcon from "../assets/Skills_SVG/django_2.svg";
@@ -85,6 +85,16 @@ const Hero = () => {
               >
                 <LinkedInIcon />
                 <span className="text-sm font-medium">LinkedIn</span>
+              </a>
+
+              <a
+                href={personalInfo.social.x}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="icon-btn flex items-center gap-2 px-4 py-2"
+              >
+                <XIcon />
+                <span className="text-sm font-medium">X</span>
               </a>
 
               <a

@@ -23,6 +23,7 @@ const Projects = () => {
     { id: "fullstack", label: "Full Stack" },
     { id: "frontend", label: "Frontend" },
     { id: "backend", label: "Backend" },
+    { id: "ai-ml", label: "AI & ML" },
   ];
 
   const filteredProjects = activeFilter === "all" 
