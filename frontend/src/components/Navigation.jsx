@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { personalInfo } from "../lib/data.js";
-import { MoonIcon, SunIcon } from "../lib/Icons.jsx";
+import { MoonIcon, SunIcon } from "../lib/icons.jsx";
 import { useTheme } from "../ThemeContext.jsx";
 
 const Navigation = () => {

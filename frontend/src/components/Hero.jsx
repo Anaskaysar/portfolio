@@ -1,5 +1,5 @@
 import { personalInfo } from "../lib/data.js";
-import { DownloadIcon, GithubIcon, HomeIcon, LinkedInIcon } from "../lib/Icons.jsx";
+import { DownloadIcon, GithubIcon, HomeIcon, LinkedInIcon } from "../lib/icons.jsx";
 
 // Import SVG assets
 import djangoIcon from "../assets/Skills_SVG/django_2.svg";

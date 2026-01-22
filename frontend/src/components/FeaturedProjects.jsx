@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { projects } from "../lib/data.js";
-import { ArrowRightIcon } from "../lib/Icons.jsx";
+import { ArrowRightIcon } from "../lib/icons.jsx";
 import ProjectCard from "./ProjectCard.jsx";
 
 const FeaturedProjects = () => {

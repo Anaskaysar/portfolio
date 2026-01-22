@@ -1,5 +1,5 @@
 import { personalInfo } from "../lib/data.js";
-import { GithubIcon, LinkedInIcon, MailIcon } from "../lib/Icons.jsx";
+import { GithubIcon, LinkedInIcon, MailIcon } from "../lib/icons.jsx";
 
 const Contact = () => {
   return (
