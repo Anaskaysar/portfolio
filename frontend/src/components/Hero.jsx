@@ -1,5 +1,6 @@
 import { personalInfo } from "../lib/data.js";
 import { DownloadIcon, GithubIcon, HomeIcon, LinkedInIcon, XIcon } from "../lib/icons.jsx";
+import OptimizedImage from "./OptimizedImage.jsx";
 
 // Import SVG assets
 import djangoIcon from "../assets/Skills_SVG/django_2.svg";
@@ -115,7 +116,7 @@ const Hero = () => {
               <div className="w-full h-full rounded-full bg-white dark:bg-zinc-900 p-[3px]">
                 {/* Inner ring - adapts to theme */}
                 <div className="w-full h-full rounded-full bg-zinc-100 dark:bg-zinc-800 p-[3px]">
-                  <img
+                  <OptimizedImage
                     src="/profile.jpg"
                     alt="Kaysarul Anas"
                     className="w-full h-full rounded-full object-cover"

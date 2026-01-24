@@ -1,4 +1,5 @@
 import { ExternalLinkIcon, GithubIcon } from "../lib/icons.jsx";
+import OptimizedImage from "./OptimizedImage.jsx";
 
 const ProjectCard = ({ project, index }) => {
   return (
@@ -15,10 +16,10 @@ const ProjectCard = ({ project, index }) => {
             <div className="absolute inset-0 bg-gradient-to-br from-violet-500/10 to-cyan-500/10 dark:from-violet-500/20 dark:to-cyan-500/20 mix-blend-overlay z-10 pointer-events-none" />
             
             {project.image ? (
-              <img 
+              <OptimizedImage 
                 src={project.image} 
                 alt={project.title}
-                className="w-full h-full object-cover object-top group-hover:object-bottom transition-all duration-[5000ms] ease-in-out"
+                className="w-full h-full object-cover object-top group-hover:object-bottom !transition-all !duration-[5000ms] !ease-in-out"
               />
             ) : (
               <div className="w-full h-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
