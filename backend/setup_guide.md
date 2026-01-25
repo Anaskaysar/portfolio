@@ -28,6 +28,14 @@ python manage.py startapp api
       "http://localhost:5173",
   ]
   ```
+- Added production settings:
+  ```python
+  STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+  # Production Security Settings
+  SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+  CSRF_TRUSTED_ORIGINS = ["https://portfolio-backend-oixpsfgnsq-uc.a.run.app"]
+  ```
 
 ## Step 5: Configure PostgreSQL
 1.  **Start PostgreSQL (if using Homebrew):**
@@ -69,6 +77,14 @@ python manage.py migrate
 > [!NOTE]
 > **Where is the database file?**
 > Unlike SQLite, **PostgreSQL does not create a file** (like `db.sqlite3`) in your project folder. It runs as a background server and manages the data internally on your system. You won't see a file in your project, but the data is there!
+
+## 10. GCP Quota Project Warning
+**Warning:** `Your active project does not match the quota project in your local Application Default Credentials file.`
+**Cause:** This happens when the project set in `gcloud config` differs from the one used for billing/quota in your local credentials.
+**Solution:** It's usually safe to ignore for personal projects, but you can fix it with:
+```bash
+gcloud auth application-default set-quota-project portfolio-backend-kaysarulanas
+```
 
 ## Step 7: Create Superuser
 Create an admin user to access the Django Admin panel:
@@ -137,3 +153,60 @@ Created `ProjectList` view to list all projects using the serializer.
     ```
 2.  **Update API Service (`frontend/src/lib/api.js`):**
     Updated to use `import.meta.env.VITE_API_URL`.
+
+## Step 16: GCP Deployment (Phase 1)
+1.  **Authentication:**
+    ```bash
+    gcloud auth login
+    ```
+2.  **Project Setup:**
+    ```bash
+    gcloud projects create portfolio-backend-kaysarulanas --set-as-default
+    gcloud config set project portfolio-backend-kaysarulanas
+    ```
+3.  **Enable Services:**
+    ```bash
+    gcloud services enable artifactregistry.googleapis.com run.googleapis.com sqladmin.googleapis.com
+    ```
+
+## Step 17: Cloud SQL Setup (Phase 3)
+1.  **Create Instance:**
+    ```bash
+    gcloud sql instances create portfolio-db-instance --database-version=POSTGRES_14 --tier=db-f1-micro --region=us-central1
+    ```
+2.  **Create Database:**
+    ```bash
+    gcloud sql databases create portfolio_db --instance=portfolio-db-instance
+    ```
+3.  **Create User:**
+    ```bash
+    gcloud sql users create portfolio_user --instance=portfolio-db-instance --password=[YOUR_PASSWORD]
+    ```
+
+## Step 18: Final Production Deployment
+1.  **Build & Push:**
+    ```bash
+    gcloud builds submit --tag us-central1-docker.pkg.dev/portfolio-backend-kaysarulanas/portfolio-repo/backend:latest
+    ```
+2.  **Run Migrations (Cloud Run Jobs):**
+    ```bash
+    gcloud run jobs create migrate-job \
+        --image us-central1-docker.pkg.dev/portfolio-backend-kaysarulanas/portfolio-repo/backend:latest \
+        --command "python","manage.py","migrate" \
+        --set-cloudsql-instances=portfolio-backend-kaysarulanas:us-central1:portfolio-db-instance \
+        --set-env-vars "DATABASE_URL=postgres://portfolio_user:[PASSWORD]@/portfolio_db?host=/cloudsql/portfolio-backend-kaysarulanas:us-central1:portfolio-db-instance" \
+        --region us-central1
+    gcloud run jobs execute migrate-job --region us-central1 --wait
+    ```
+3.  **Deploy Web Service:**
+    ```bash
+    gcloud run deploy portfolio-backend \
+        --image us-central1-docker.pkg.dev/portfolio-backend-kaysarulanas/portfolio-repo/backend:latest \
+        --add-cloudsql-instances=portfolio-backend-kaysarulanas:us-central1:portfolio-db-instance \
+        --update-env-vars "DATABASE_URL=postgres://portfolio_user:[PASSWORD]@/portfolio_db?host=/cloudsql/portfolio-backend-kaysarulanas:us-central1:portfolio-db-instance" \
+        --update-env-vars "SECRET_KEY=[YOUR_SECRET]" \
+        --update-env-vars "DEBUG=False" \
+        --update-env-vars "ALLOWED_HOSTS=*" \
+        --region us-central1 \
+        --allow-unauthenticated
+    ```

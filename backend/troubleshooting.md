@@ -61,3 +61,27 @@ mkdir media && mv projects media/
 **Error:** Images failed to load in the frontend component.
 **Cause:** `OptimizedImage.jsx` was automatically trying to load a `.webp` version of the image (e.g., `image.webp` for `image.png`). Since user-uploaded images in Django are not auto-converted to WebP, this file didn't exist.
 **Solution:** Disabled the automatic WebP conversion logic in `OptimizedImage.jsx` to load the original source URL directly.
+
+## 10. GCP Quota Project Warning
+**Warning:** `Your active project does not match the quota project in your local Application Default Credentials file.`
+**Cause:** This happens when the project set in `gcloud config` differs from the one used for billing/quota in your local credentials.
+**Solution:** It's usually safe to ignore for personal projects, but you can fix it with:
+```bash
+gcloud auth application-default set-quota-project portfolio-backend-kaysarulanas
+```
+
+## 11. Cloud Build PERMISSION_DENIED
+**Error:** `ERROR: (gcloud.builds.submit) PERMISSION_DENIED: The caller does not have permission`
+**Cause:** This often happens immediately after enabling the Cloud Build API. The permissions take a minute or two to propagate across Google's servers.
+**Solution:** Wait 60 seconds and retry the command. If it still fails, ensure your account has the "Cloud Build Editor" role in the GCP Console.
+
+## 13. Cloud SQL Connection Refused (TCP vs Socket)
+**Error:** `psycopg2.OperationalError: connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused`
+**Cause:** Django defaults to TCP (localhost) if the `DATABASE_URL` doesn't explicitly set the `HOST` to the Unix socket path.
+**Solution:** Update `settings.py` to manually move the `host` from `OPTIONS` to `HOST`:
+```python
+if os.environ.get('DATABASE_URL'):
+    DATABASES['default'] = dj_database_url.config()
+    if DATABASES['default'].get('OPTIONS', {}).get('host'):
+        DATABASES['default']['HOST'] = DATABASES['default']['OPTIONS']['host']
+```
