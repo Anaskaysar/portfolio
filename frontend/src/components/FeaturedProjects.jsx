@@ -1,10 +1,25 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { projects } from "../lib/data.js";
+import { getProjects } from "../lib/api.js"; // Import API helper
 import { ArrowRightIcon } from "../lib/icons.jsx";
 import ProjectCard from "./ProjectCard.jsx";
 
 const FeaturedProjects = () => {
-  const featuredProjects = projects.filter(project => project.featured);
+  const [featuredProjects, setFeaturedProjects] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const allProjects = await getProjects();
+      if (allProjects) {
+        // Filter for featured projects only
+        const featured = allProjects.filter(project => project.featured);
+        setFeaturedProjects(featured);
+      }
+    };
+    fetchData();
+  }, []);
+
+  if (featuredProjects.length === 0) return null; // Don't show section if no featured projects
 
   return (
     <section className="py-20 px-6">

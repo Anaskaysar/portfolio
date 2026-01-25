@@ -1,0 +1,100 @@
+[
+  {
+    "model": "api.project",
+    "pk": 1,
+    "fields": {
+      "title": "EncryptIQ",
+      "description": "Educational platform for learning cryptographic algorithms (AES, RSA) with real-time encryption/decryption demonstrations.",
+      "tech_stack": ["React", "Tailwind CSS", "Cryptography"],
+      "category": "fullstack",
+      "featured": true,
+      "github_link": "https://github.com/Anaskaysar/EncryptIQ-Conveys-Intelligence-And-Insight-Into-Encryption",
+      "live_link": "",
+      "created_at": "2023-01-01T12:00:00Z"
+    }
+  },
+  {
+    "model": "api.project",
+    "pk": 2,
+    "fields": {
+      "title": "Travel-X",
+      "description": "A comprehensive tourism website featuring destination booking, user reviews, and a dynamic admin dashboard.",
+      "tech_stack": ["React", "Node.js", "Express", "MongoDB", "Firebase"],
+      "category": "fullstack",
+      "featured": true,
+      "github_link": "https://github.com/Anaskaysar/Travel-X-An-Online-Tourism-Website",
+      "live_link": "https://travelx-react.web.app/",
+      "created_at": "2023-02-01T12:00:00Z"
+    }
+  },
+  {
+    "model": "api.project",
+    "pk": 3,
+    "fields": {
+      "title": "Doctors Portal",
+      "description": "Medical appointment management system allowing patients to book appointments and doctors to manage schedules.",
+      "tech_stack": ["React", "Material UI", "Firebase", "MongoDB", "Express", "Node.js"],
+      "category": "fullstack",
+      "featured": true,
+      "github_link": "https://github.com/Anaskaysar/Doctors-Portal-ClientSide",
+      "live_link": "https://yours-doctor-3995f.web.app/",
+      "created_at": "2023-03-01T12:00:00Z"
+    }
+  },
+  {
+    "model": "api.project",
+    "pk": 4,
+    "fields": {
+      "title": "Fitness Pro",
+      "description": "Responsive health and fitness website with user authentication and workout tracking features.",
+      "tech_stack": ["React", "Firebase", "Tailwind CSS"],
+      "category": "frontend",
+      "featured": false,
+      "github_link": "https://github.com/Anaskaysar/Fitness-Pro-Responsive-Website-With-Firebase-Authentication",
+      "live_link": "https://fitness-pro-react.web.app/",
+      "created_at": "2023-04-01T12:00:00Z"
+    }
+  },
+  {
+    "model": "api.project",
+    "pk": 5,
+    "fields": {
+      "title": "Cat vs Dog Classifier",
+      "description": "Convolutional Neural Network (CNN) model trained to classify images of cats and dogs with high accuracy.",
+      "tech_stack": ["Python", "TensorFlow", "Keras", "Deep Learning"],
+      "category": "ai-ml",
+      "featured": false,
+      "github_link": "https://github.com/Anaskaysar/Unleashing-the-Power-of-CNNs-Classifying-Cats-and-Dogs",
+      "live_link": "",
+      "created_at": "2023-05-01T12:00:00Z"
+    }
+  },
+  {
+    "model": "api.project",
+    "pk": 6,
+    "fields": {
+      "title": "MalariAI",
+      "description": "Automated malaria cell segmentation system using Computer Vision and Deep Learning techniques on blood smear images.",
+      "tech_stack": ["Python", "OpenCV", "Deep Learning", "Computer Vision"],
+      "category": "ai-ml",
+      "featured": false,
+      "github_link": "https://github.com/Anaskaysar/MalariAI-Automated-Malaria-Cell-Segmentation-from-Blood-Smear-Images",
+      "live_link": "",
+      "created_at": "2023-06-01T12:00:00Z"
+    }
+  },
+  {
+    "model": "api.project",
+    "pk": 7,
+    "fields": {
+      "title": "New Rentoor",
+      "description": "A comprehensive real estate platform featuring a responsive property listing system, admin panel, and user dashboard.",
+      "tech_stack": ["React", "Node.js", "Express", "MongoDB", "Material UI"],
+      "category": "fullstack",
+      "featured": true,
+      "github_link": "https://github.com/Anaskaysar/New-Rentoor-Real-Estate-Agents",
+      "live_link": "https://new-rentoor-react.web.app/",
+      "created_at": "2023-07-01T12:00:00Z"
+    }
+  }
+]

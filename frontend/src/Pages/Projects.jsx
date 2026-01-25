@@ -1,23 +1,31 @@
-// import ProjectsComponent from "../components/Projects";
-
-// export default function Projects() {
-//   return (
-//     <div className="pt-20 min-h-screen">
-//       <div className="container mx-auto px-6">
-//         <h1 className="text-3xl font-bold mb-8 text-zinc-900 dark:text-white">Projects</h1>
-//         <ProjectsComponent />
-//       </div>
-//     </div>
-//   );
-// }
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PageTransition from "../components/PageTransition.jsx";
 import ProjectCard from "../components/ProjectCard.jsx";
-import { projects } from "../lib/data.js";
+import { getProjects } from "../lib/api.js"; // Import the API helper
 
 const Projects = () => {
+  const [projects, setProjects] = useState([]);
   const [activeFilter, setActiveFilter] = useState("all");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getProjects();
+        if (data === null) {
+          setError(true);
+        } else {
+          setProjects(data);
+        }
+      } catch (err) {
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
 
   const filters = [
     { id: "all", label: "All Projects" },
@@ -30,6 +38,31 @@ const Projects = () => {
   const filteredProjects = activeFilter === "all" 
     ? projects 
     : projects.filter(project => project.category === activeFilter);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen pt-28 flex justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-violet-600"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen pt-28 flex flex-col items-center justify-center px-6 text-center">
+        <h2 className="text-2xl font-bold text-red-500 mb-4">Oops! Something went wrong.</h2>
+        <p className="text-zinc-600 dark:text-zinc-400 mb-6">
+          We couldn't load the projects. Please check your connection or try again later.
+        </p>
+        <button 
+          onClick={() => window.location.reload()}
+          className="px-6 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
 
   return (
     <PageTransition>
