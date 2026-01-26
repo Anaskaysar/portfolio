@@ -209,3 +209,29 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-zinc-400 dark:bg-zinc-600;
 }
+
+/* Organic Blob Shape */
+.blob-shape {
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  transition: all 1s ease-in-out;
+}
+
+.blob-outline {
+  @apply relative;
+}
+
+.blob-outline::after {
+  content: '';
+  @apply absolute -inset-[2px] rounded-[inherit] border-2 border-zinc-200 dark:border-zinc-800 pointer-events-none;
+  border-radius: inherit;
+}
+
+@keyframes blob-animation {
+  0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+  100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+}
+
+.animate-blob {
+  animation: blob-animation 8s ease-in-out infinite;
+}
