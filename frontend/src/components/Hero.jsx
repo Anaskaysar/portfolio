@@ -111,19 +111,29 @@ const Hero = () => {
 
           {/* Profile Image (1 column) */}
           <div className="flex justify-center order-1 lg:order-2">
-            <div className="relative w-80 h-80 rounded-full bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-400 p-[4px]">
-              {/* Outer ring - adapts to theme */}
-              <div className="w-full h-full rounded-full bg-white dark:bg-zinc-900 p-[3px]">
-                {/* Inner ring - adapts to theme */}
-                <div className="w-full h-full rounded-full bg-zinc-100 dark:bg-zinc-800 p-[3px]">
-                  <OptimizedImage
-                    src="/profile.jpg"
-                    alt="Kaysarul Anas"
-                    className="w-full h-full rounded-full object-cover"
-                  />
+            {/* heroVariant can be 'circle' or 'blob' */}
+            {(() => {
+              const heroVariant = 'blob'; // Change to 'circle' for original style
+              const isBlob = heroVariant === 'blob';
+              
+              return (
+                <div className={`relative w-80 h-80 ${isBlob ? 'blob-shape animate-blob' : 'rounded-full'} bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-400 p-[4px]`}>
+                  {/* Outer ring - adapts to theme */}
+                  <div className={`w-full h-full ${isBlob ? 'blob-shape' : 'rounded-full'} bg-white dark:bg-zinc-900 p-[3px]`}>
+                    {/* Inner ring - adapts to theme */}
+                    <div className={`w-full h-full ${isBlob ? 'blob-shape' : 'rounded-full'} bg-zinc-100 dark:bg-zinc-800 p-[3px]`}>
+                      <div className={`w-full h-full ${isBlob ? 'blob-shape blob-outline' : 'rounded-full'} overflow-hidden`}>
+                        <OptimizedImage
+                          src="/profile.jpg"
+                          alt="Kaysarul Anas"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+              );
+            })()}
           </div>
         </div>
 

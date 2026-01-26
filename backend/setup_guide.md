@@ -10,7 +10,7 @@ source venv/bin/activate
 
 ## Step 2: Install Dependencies
 ```bash
-pip install django djangorestframework django-cors-headers Pillow
+pip install django djangorestframework django-cors-headers Pillow python-dotenv
 ```
 
 ## Step 3: Create Project and App
@@ -22,11 +22,21 @@ python manage.py startapp api
 ## Step 4: Configure Settings (`backend_core/settings.py`)
 - Added `rest_framework`, `corsheaders`, and `api` to `INSTALLED_APPS`.
 - Added `corsheaders.middleware.CorsMiddleware` to `MIDDLEWARE` (above `CommonMiddleware`).
-- Configured `CORS_ALLOWED_ORIGINS`:
+- Added `python-dotenv` to load environment variables:
+  ```python
+  from dotenv import load_dotenv
+  load_dotenv()
+  ```
+- Configured `CORS_ALLOWED_ORIGINS` with environment variable support:
   ```python
   CORS_ALLOWED_ORIGINS = [
       "http://localhost:5173",
+      "https://kaysarulanas.me",
+      "https://www.kaysarulanas.me",
   ]
+
+  if os.environ.get('CORS_ALLOWED_ORIGINS'):
+      CORS_ALLOWED_ORIGINS += [origin.strip() for origin in os.environ.get('CORS_ALLOWED_ORIGINS').split(',') if origin.strip()]
   ```
 - Added production settings:
   ```python
