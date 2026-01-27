@@ -139,14 +139,28 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Google Cloud Storage Configuration
 GS_BUCKET_NAME = 'portfolio-media-kaysarulanas'
-if not DEBUG:
-    DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+
+# Storage configuration for Django 5.1+
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
+# Use GCS for media files if not in DEBUG or if USE_GCS is set to True
+if not DEBUG or os.environ.get('USE_GCS') == 'True':
+    STORAGES["default"] = {
+        "BACKEND": "backend_core.storage_backends.MediaStorage",
+    }
     GS_DEFAULT_ACL = 'publicRead'
     GS_QUERYSTRING_AUTH = False
+    GS_CREDENTIALS = os.environ.get('GS_CREDENTIALS')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
