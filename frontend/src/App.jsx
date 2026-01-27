@@ -1,10 +1,11 @@
 import { Suspense, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
-import Navigation from "./components/Navigation.jsx";
 import { ThemeProvider } from "./ThemeContext.jsx";
+import Navigation from "./components/Navigation.jsx";
 
 import { AnimatePresence } from "framer-motion";
 import { useLocation } from "react-router-dom";
+
 
 // Lazy load pages
 const Home = lazy(() => import("./Pages/Home.jsx"));
@@ -13,6 +14,8 @@ const Background = lazy(() => import("./Pages/Background.jsx"));
 const Projects = lazy(() => import("./Pages/Projects.jsx"));
 const Research = lazy(() => import("./Pages/Research.jsx"));
 const NotFound = lazy(() => import("./Pages/NotFound.jsx"));
+
+const AdminDashboard = lazy(() => import("./Pages/Dashboard/AdminDashboard.jsx"));
 
 function LoadingSpinner() {
   return (
@@ -27,8 +30,8 @@ function AppContent() {
 
   return (
     <>
-      <a 
-        href="#main-content" 
+      <a
+        href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-[100] px-4 py-2 bg-violet-600 text-white rounded-md font-medium"
       >
         Skip to Content
@@ -43,7 +46,7 @@ function AppContent() {
 
         {/* Foreground Content */}
         <div className="relative z-10">
-          <Navigation />
+          {!location.pathname.startsWith("/dashboard") && <Navigation />}
 
           <main id="main-content">
             <Suspense fallback={<LoadingSpinner />}>
@@ -54,6 +57,7 @@ function AppContent() {
                   <Route path="/projects" element={<Projects />} />
                   <Route path="/research" element={<Research />} />
                   <Route path="/about" element={<About />} />
+                  <Route path="/dashboard" element={<AdminDashboard/>} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </AnimatePresence>

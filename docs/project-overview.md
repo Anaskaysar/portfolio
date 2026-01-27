@@ -1,81 +1,65 @@
 # Portfolio Project Documentation
 
 ## 1. Project Overview
-This is a modern, responsive personal portfolio website built with React and Tailwind CSS v4. It features a dark/light mode toggle, dynamic project cards, and a clean, professional design.
+This is a modern, full-stack personal portfolio website. It features a React frontend with a clean, responsive design and a Django backend that provides a dynamic API for managing projects and content. The project is fully integrated with Google Cloud for storage and database, and uses automated CI/CD pipelines for seamless deployments.
 
 ### Tech Stack
--   **Frontend**: React (Vite)
+-   **Frontend**: React 19 (Vite)
+-   **Backend**: Django 5.1 (Google Cloud Run)
+-   **Database**: PostgreSQL (Google Cloud SQL)
+-   **Storage**: Google Cloud Storage (GCS) for media files
 -   **Styling**: Tailwind CSS v4
--   **Routing**: React Router DOM
--   **Icons**: Custom SVG Components
+-   **CI/CD**: GitHub Actions (GCP & Vercel)
+-   **Routing**: React Router DOM v7
 
 ## 2. Project Structure
 ```
 portfolio-project/
-├── docs/               # Documentation files
+├── .github/workflows/  # CI/CD Pipeline configurations
+├── backend/            # Django Backend Application
+│   ├── api/            # API logic, models, and views
+│   ├── backend_core/   # Project settings and configuration
+│   └── manage.py       # Django management script
 ├── frontend/           # React Frontend Application
-│   ├── public/         # Static assets (favicons, images)
+│   ├── public/         # Static assets
 │   ├── src/
 │   │   ├── components/ # Reusable UI components
-│   │   ├── lib/        # Data and utility functions
-│   │   ├── Pages/      # Page components (Home, Projects, etc.)
-│   │   ├── App.jsx     # Main App component
-│   │   └── main.jsx    # Entry point
+│   │   ├── lib/        # API helpers and icons
+│   │   ├── Pages/      # Page components
+│   │   └── App.jsx     # Main App component
 │   └── index.html      # HTML entry point
-└── backend/            # (Future) Backend Application
+└── docs/               # Project documentation & screenshots
 ```
 
-## 3. Key Components
+## 3. Key Features & Architecture
 
-### `ProjectCard.jsx`
-A reusable component for displaying project details.
--   **Features**:
-    -   **Alternating Layout**: Uses `flex-row-reverse` based on the project index to create a zig-zag pattern.
-    -   **Scroll Animation**: Images scroll from top to bottom on hover using CSS transitions on `object-position`.
-    -   **Responsive**: Stacks vertically on mobile devices.
+### Dynamic Project Management
+Projects are no longer hardcoded in the frontend. They are fetched from the Django API, allowing for easy updates via the Django Admin panel.
 
-### `ThemeContext.jsx`
-Manages the dark/light mode state.
--   **Logic**: Checks system preference or local storage on load. Toggles a `dark` class on the `<html>` element.
+### Cloud Storage (GCS)
+Project thumbnails and other media are stored permanently in Google Cloud Storage. This ensures that images persist even though the backend runs on ephemeral Cloud Run instances.
 
-### `data.js`
-Centralized data file for projects, skills, and personal info.
--   **Usage**: Edit this file to add new projects or update your bio without touching the component code.
+### Automated CI/CD
+- **Backend**: Automatically builds a Docker image, pushes to Artifact Registry, and deploys to Cloud Run on every push to `main` (if `backend/` changes).
+- **Frontend**: Automatically deploys to Vercel on every push to `main` (if `frontend/` changes).
 
-## 4. Deployment Guide
+### Modern UI/UX
+- **Dark/Light Mode**: Auto-detects system preference with a manual toggle.
+- **Optimized Images**: Uses a custom `OptimizedImage` component for better performance.
+- **Responsive Design**: Fully optimized for all screen sizes using Tailwind CSS v4.
 
-### Recommended Hosting: Vercel or Netlify
-For a React frontend, **Vercel** or **Netlify** are the best options.
+## 4. Documentation Links
 
-**Why?**
-1.  **Free**: Generous free tiers for personal projects.
-2.  **Fast**: They use global CDNs to serve your site instantly from anywhere.
-3.  **Easy Updates**: Connect your GitHub repository. Every time you push code, they automatically rebuild and deploy your site in minutes.
-4.  **Custom Domain**: You can easily connect your custom domain (purchased from Namecheap or elsewhere) for free.
+For more detailed information, refer to the following guides:
 
-### How to Deploy (Vercel Example):
-1.  Push your code to GitHub.
-2.  Go to [Vercel.com](https://vercel.com) and sign up.
-3.  Click "Add New Project" and select your GitHub repo.
-4.  **Build Settings**:
-    -   **Framework Preset**: Vite
-    -   **Root Directory**: `frontend` (Important! Since your package.json is inside the frontend folder).
-5.  Click "Deploy".
+- [**Backend Setup Guide**](file:///Users/kaysarulanasapurba/Desktop/My%20Codes/portfolio-project/backend/setup_guide.md)
+- [**CI/CD Documentation**](file:///Users/kaysarulanasapurba/Desktop/My%20Codes/portfolio-project/docs/CI_CD.md)
+- [**Troubleshooting Guide**](file:///Users/kaysarulanasapurba/Desktop/My%20Codes/portfolio-project/backend/troubleshooting.md)
 
-### Comparison
-| Option | Speed | Cost | Ease of Use | Updates |
-| :--- | :--- | :--- | :--- | :--- |
-| **Vercel/Netlify** | 🚀 **Fastest** | **Free** | **Easiest** | **Instant (Auto)** |
-| **Firebase** | ⚡ Fast | Free Tier | Medium | Manual CLI |
-| **Namecheap** | 🐢 Slower | Paid | Harder | Manual FTP/Upload |
-
-**Recommendation**: Use **Vercel** or **Netlify**. They are the industry standard for React apps.
-
-## 5. Future Roadmap
--   **Backend**: Build a Django/Node.js backend in the `backend/` folder.
--   **Dashboard**: Create an admin dashboard to manage projects dynamically.
--   **Database**: Connect to PostgreSQL/MongoDB to store project data instead of `data.js`.
-Plan:
-Phase 1: Set up Django + PostgreSQL. Use Django Admin for manual data entry initially.
-Phase 2: Connect your frontend to the Django API.
-Phase 3: Build the custom Dashboard UI in React.
+## 5. Progress & Roadmap
+- [x] **Phase 1**: Initial React Frontend with Tailwind CSS v4.
+- [x] **Phase 2**: Django Backend + PostgreSQL (Cloud SQL) integration.
+- [x] **Phase 3**: Google Cloud Storage (GCS) for media files.
+- [x] **Phase 4**: Automated CI/CD pipelines for Frontend and Backend.
+- [ ] **Phase 5**: Custom React-based Admin Dashboard (Currently using enhanced Django Admin).
+- [ ] **Phase 6**: SEO Optimization and Performance Tuning.

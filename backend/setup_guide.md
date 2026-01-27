@@ -220,3 +220,45 @@ Created `ProjectList` view to list all projects using the serializer.
         --region us-central1 \
         --allow-unauthenticated
     ```
+
+## Step 19: Google Cloud Storage (GCS) Setup
+To enable permanent image storage (since Cloud Run filesystem is ephemeral):
+
+1.  **Create a GCS Bucket:**
+    - Name: `portfolio-media-kaysarulanas`
+    - Location: `us-central1`
+    - Access Control: `Uniform` (recommended) or `Fine-grained`.
+2.  **Configure Permissions:**
+    - Grant `Storage Object Viewer` to `allUsers` for public read access (if using `publicRead` ACL).
+3.  **Update `.env` (Local):**
+    ```env
+    USE_GCS=True
+    GS_CREDENTIALS={...json content...}
+    ```
+4.  **Storage Backend:**
+    The project uses a custom `MediaStorage` class in `backend_core/storage_backends.py` to ensure images are stored in a `media/` subfolder within the bucket.
+
+## Step 20: CI/CD Setup (GitHub Actions)
+The project is configured for automated deployment.
+
+### 1. Required GitHub Secrets
+Add these to **Settings > Secrets and variables > Actions**:
+
+| Secret Name | Description |
+| :--- | :--- |
+| `GCP_PROJECT_ID` | Your Google Cloud Project ID |
+| `GCP_SA_KEY` | JSON key for Service Account (roles: Cloud Run Admin, Artifact Registry Writer, Storage Admin) |
+| `VERCEL_TOKEN` | Vercel Personal Access Token |
+| `VERCEL_ORG_ID` | Vercel Team ID (starts with `team_`) |
+| `VERCEL_PROJECT_ID` | Vercel Project ID (starts with `prj_`) |
+
+### 2. Artifact Registry Setup
+The backend workflow requires a Docker repository:
+1. Go to **Artifact Registry > Repositories**.
+2. Create a repository named `portfolio`.
+3. Format: `Docker`, Location: `us-central1`.
+
+### 3. Vercel Environment Variables
+Ensure the live frontend knows where to find the backend. Add these in the **Vercel Dashboard**:
+- `VITE_API_URL`: `https://your-backend-url.a.run.app/api`
+- `VITE_MEDIA_URL`: `https://your-backend-url.a.run.app`

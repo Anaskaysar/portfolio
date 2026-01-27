@@ -85,3 +85,50 @@ if os.environ.get('DATABASE_URL'):
     if DATABASES['default'].get('OPTIONS', {}).get('host'):
         DATABASES['default']['HOST'] = DATABASES['default']['OPTIONS']['host']
 ```
+
+## 14. InvalidStorageError: No module named 'storages'
+**Error:** `django.core.files.storage.handler.InvalidStorageError: Could not find backend 'backend_core.storage_backends.MediaStorage': No module named 'storages'`
+**Cause:** Running the server with the system Python instead of the virtual environment where `django-storages` is installed.
+**Solution:** Always run the server using the virtual environment's Python:
+```bash
+./venv/bin/python3 manage.py runserver
+```
+
+## 15. Artifact Registry Permission Denied
+**Error:** `denied: Permission 'artifactregistry.repositories.uploadArtifacts' denied on resource`
+**Cause:** The Service Account used in GitHub Actions lacks the `Artifact Registry Writer` role.
+**Solution:** 
+1. Go to **IAM & Admin > IAM** in GCP Console.
+2. Find the Service Account and add the role: **Artifact Registry Writer**.
+3. Ensure the repository exists in **Artifact Registry > Repositories**.
+
+## 16. GCR.io vs Artifact Registry
+**Error:** `denied: gcr.io repo does not exist. Creating on push requires the artifactregistry.repositories.createOnPush permission`
+**Cause:** Google is deprecating Container Registry (`gcr.io`) in favor of Artifact Registry (`pkg.dev`).
+**Solution:** Update the workflow to use the Artifact Registry format:
+- Registry: `REGION-docker.pkg.dev/PROJECT_ID/REPOSITORY/IMAGE`
+- Auth: `gcloud auth configure-docker REGION-docker.pkg.dev`
+
+## 17. Vercel: Project not found
+**Error:** `Error! Project not found ({"VERCEL_PROJECT_ID":"***","VERCEL_ORG_ID":"***"})`
+**Cause:** Incorrect `VERCEL_PROJECT_ID` or `VERCEL_ORG_ID` (Team ID) in GitHub Secrets.
+**Solution:** 
+- Get `VERCEL_PROJECT_ID` from Project Settings.
+- Get `VERCEL_ORG_ID` (Team ID) from Team Settings (starts with `team_`).
+- Run `npx vercel link` locally to verify the IDs in `.vercel/project.json`.
+
+## 18. Vercel: Unexpected error (CLI Version)
+**Error:** `Error! Unexpected error. Please try again later. ()`
+**Cause:** Using an outdated Vercel GitHub Action or CLI version that is incompatible with the project (e.g., Tailwind v4).
+**Solution:** Update the workflow to use the latest Vercel CLI directly:
+```yaml
+- name: Install Vercel CLI
+  run: npm install --global vercel@latest
+- name: Deploy to Vercel
+  run: vercel --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
+```
+
+## 19. Vercel: Directory Nesting Error
+**Error:** `Error: The provided path "~/work/portfolio/portfolio/frontend/frontend" does not exist.`
+**Cause:** Setting `working-directory: ./frontend` in GitHub Actions when Vercel's "Root Directory" setting is already set to `frontend`.
+**Solution:** Run the `vercel` command from the project root and let Vercel handle the directory mapping via its internal settings.

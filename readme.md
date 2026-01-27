@@ -4,16 +4,19 @@ A modern, responsive **personal portfolio website** built with **React**, **Vite
 
 🔗 **Live Repository**: [https://github.com/Anaskaysar/portfolio](https://github.com/Anaskaysar/portfolio)
 
+
+./run.sh
+
 ---
 
 ## 🚀 Tech Stack
 
 * **Frontend**: React 19 (Vite)
+* **Backend**: Django 5.1 (Google Cloud Run)
+* **Database**: PostgreSQL (Cloud SQL)
+* **Storage**: Google Cloud Storage (GCS)
 * **Styling**: Tailwind CSS v4
-* **Routing**: React Router DOM v7
-* **State & Theme**: Context API (Dark / Light Mode)
-* **Icons**: Custom SVG Components
-* **Deployment**: Vercel / Netlify
+* **CI/CD**: GitHub Actions (GCP & Vercel)
 
 ---
 
@@ -21,9 +24,9 @@ A modern, responsive **personal portfolio website** built with **React**, **Vite
 
 * ⚡ **Fast & Lightweight** — Powered by Vite for instant reloads
 * 🌗 **Dark / Light Mode** — Auto-detects system preference with manual toggle
+* ☁️ **Cloud Integrated** — Permanent image storage via Google Cloud Storage
+* 🤖 **Automated CI/CD** — Zero-touch deployments to Cloud Run and Vercel
 * 📱 **Fully Responsive** — Optimized for mobile, tablet, and desktop
-* 🧩 **Reusable Components** — Clean, modular React architecture
-* 🗂️ **Centralized Data** — Easy content updates via `src/lib/data.js`
 * 🎨 **Modern UI** — Minimal, developer-focused design
 
 ---
@@ -33,17 +36,20 @@ A modern, responsive **personal portfolio website** built with **React**, **Vite
 ```bash
 portfolio-project/
 ├── frontend/           # React Frontend Application
-│   ├── public/         # Static assets (favicons, images)
-│   ├── src/
-│   │   ├── components/ # Reusable UI components (Hero, Projects, etc.)
-│   │   ├── lib/        # Centralized data and utility functions
-│   │   ├── pages/      # Page components (Home, Projects, About, etc.)
-│   │   ├── App.jsx     # Main App component with routing
-│   │   └── main.jsx    # Application entry point
-│   └── index.html      # HTML entry point
-├── backend/            # (Planned) Django Backend
+├── backend/            # Django Backend Application
+├── .github/workflows/  # CI/CD Pipeline configurations
 └── docs/               # Project documentation & screenshots
 ```
+
+---
+
+## 📖 Documentation
+
+Detailed guides for setting up and maintaining the project:
+
+- [**Backend Setup Guide**](backend/setup_guide.md) — How to initialize and deploy the Django backend.
+- [**CI/CD Documentation**](docs/CI_CD.md) — Detailed overview of the automated deployment pipelines.
+- [**Troubleshooting Guide**](backend/troubleshooting.md) — Common errors and their solutions.
 
 ---
 
@@ -51,41 +57,20 @@ portfolio-project/
 
 ### Prerequisites
 
-* Node.js (v18+ recommended)
-* npm or yarn
+* Node.js (v18+) & npm
+* Python 3.12+ (for backend)
+* Google Cloud SDK (for deployment)
 
 ### Installation
 
 1. Clone the repository:
-
 ```bash
 git clone https://github.com/Anaskaysar/portfolio.git
 cd portfolio
 ```
 
-2. Navigate to the frontend directory:
-
-```bash
-cd frontend
-```
-
-3. Install dependencies:
-
-```bash
-npm install
-```
-
-4. Start the development server:
-
-```bash
-npm run dev
-```
-
-5. Open the app in your browser:
-
-```text
-http://localhost:5173
-```
+2. Follow the [**Backend Setup Guide**](backend/setup_guide.md) to initialize the server.
+3. Follow the [**Frontend README**](frontend/README.md) to start the UI.
 
 ---
 
@@ -95,19 +80,16 @@ http://localhost:5173
 
 ![Homepage Desktop View](./docs/pictures/homepage_screenshot.png)
 
-### Mobile View (400px)
-
-![Mobile View](./docs/pictures/mobile_view_screenshot.png)
-
 ---
 
-## 🔜 Future Roadmap
+## ✅ Progress & Roadmap
 
-* [ ] **Backend Integration** — Django + PostgreSQL for dynamic content management
-* [ ] **Admin Dashboard** — Secure admin panel to manage projects and content
+* [x] **Backend Integration** — Django + PostgreSQL for dynamic content management
+* [x] **Cloud Storage** — Google Cloud Storage for permanent project images
+* [x] **Automated CI/CD** — GitHub Actions for seamless deployments
+* [ ] **Admin Dashboard** — Secure custom admin panel (Currently using enhanced Django Admin)
 * [ ] **Blog Section** — Technical blogs and tutorials
 * [ ] **SEO Optimization** — Meta tags, Open Graph, and performance tuning
-* [ ] **Animations** — Subtle motion using Framer Motion
 
 ---
 
