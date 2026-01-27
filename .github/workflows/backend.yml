@@ -11,6 +11,7 @@ env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   SERVICE_NAME: portfolio-backend
   REGION: us-central1
+  REPOSITORY: portfolio # You'll need to create this in Artifact Registry
 
 jobs:
   deploy:
@@ -28,17 +29,17 @@ jobs:
         uses: 'google-github-actions/setup-gcloud@v2'
 
       - name: Authorize Docker
-        run: gcloud auth configure-docker
+        run: gcloud auth configure-docker us-central1-docker.pkg.dev
 
       - name: Build and Push Container
         run: |
-          docker build -t gcr.io/$PROJECT_ID/$SERVICE_NAME:${{ github.sha }} ./backend
-          docker push gcr.io/$PROJECT_ID/$SERVICE_NAME:${{ github.sha }}
+          docker build -t $REGION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$SERVICE_NAME:${{ github.sha }} ./backend
+          docker push $REGION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$SERVICE_NAME:${{ github.sha }}
 
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy $SERVICE_NAME \
-            --image gcr.io/$PROJECT_ID/$SERVICE_NAME:${{ github.sha }} \
+            --image $REGION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$SERVICE_NAME:${{ github.sha }} \
             --region $REGION \
             --platform managed \
             --allow-unauthenticated
