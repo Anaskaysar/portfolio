@@ -15,11 +15,14 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 # Copy project
 COPY . /app/
 
+# Make start.sh executable
+RUN chmod +x /app/start.sh
+
 # Collect static files
 RUN python manage.py collectstatic --noinput
 
 # Expose port
 EXPOSE 8080
 
-# Run gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:8080", "backend_core.wsgi:application"]
+# Run startup script
+CMD ["/app/start.sh"]
