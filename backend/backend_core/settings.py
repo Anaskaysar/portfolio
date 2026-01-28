@@ -179,3 +179,12 @@ if os.environ.get('CORS_ALLOWED_ORIGINS'):
 
 # If still having issues, we can uncomment this for debugging
 # CORS_ALLOW_ALL_ORIGINS = True
+
+# Debugging: Print database configuration
+if DEBUG:
+    print("DEBUG: Database Configuration:")
+    for alias, config in DATABASES.items():
+        safe_config = config.copy()
+        if 'PASSWORD' in safe_config:
+            safe_config['PASSWORD'] = '*****'
+        print(f"  {alias}: {safe_config}")
