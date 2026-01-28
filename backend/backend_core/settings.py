@@ -84,23 +84,36 @@ WSGI_APPLICATION = 'backend_core.wsgi.application'
 
 import dj_database_url
 
+# Default local database configuration
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'portfolio_db',
         'USER': 'kaysarulanasapurba',  # Your Mac username
-        'PASSWORD': '',           # Leave empty
+        'PASSWORD': '',           # Leave empty for local
         'HOST': 'localhost',
         'PORT': '5432',
     }
 }
 
+# Cloud Run/Production database configuration
 if os.environ.get('DATABASE_URL'):
-    DATABASES['default'] = dj_database_url.config(default=os.environ.get('DATABASE_URL'))
-    # Cloud SQL socket fix: dj-database-url puts ?host= in OPTIONS, but Django needs it in HOST
-    if DATABASES['default'].get('OPTIONS', {}).get('host'):
-        DATABASES['default']['HOST'] = DATABASES['default']['OPTIONS']['host']
-
+    db_config = dj_database_url.config(default=os.environ.get('DATABASE_URL'))
+    
+    # Handle Cloud SQL Unix socket connection
+    if db_config.get('OPTIONS', {}).get('host'):
+        db_config['HOST'] = db_config['OPTIONS']['host']
+        del db_config['OPTIONS']['host']
+    
+    DATABASES['default'] = db_config
+    
+    # Debugging: Print sanitized database configuration
+    if DEBUG:
+        print("DEBUG: Using DATABASE_URL configuration")
+        safe_config = db_config.copy()
+        if 'PASSWORD' in safe_config:
+            safe_config['PASSWORD'] = '*****'
+        print(f"  Database config: {safe_config}")
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -179,12 +192,3 @@ if os.environ.get('CORS_ALLOWED_ORIGINS'):
 
 # If still having issues, we can uncomment this for debugging
 # CORS_ALLOW_ALL_ORIGINS = True
-
-# Debugging: Print database configuration
-if DEBUG:
-    print("DEBUG: Database Configuration:")
-    for alias, config in DATABASES.items():
-        safe_config = config.copy()
-        if 'PASSWORD' in safe_config:
-            safe_config['PASSWORD'] = '*****'
-        print(f"  {alias}: {safe_config}")

@@ -5,16 +5,14 @@ set -e
 
 echo "Starting Django application..."
 
-# Wait a bit for any external services
+# Wait for Cloud SQL proxy to be ready
 sleep 5
 
-# Run migrations synchronously (not in background)
+# Run migrations synchronously
 echo "Running database migrations..."
 python3 manage.py migrate --noinput
 
-# Load fixtures if needed (optional - only if you want to load initial data)
-# echo "Loading fixtures..."
-# python3 manage.py loaddata api/fixtures/projects.json
+echo "Migrations completed successfully!"
 
 # Start Gunicorn
 echo "Starting Gunicorn on port ${PORT:-8080}..."

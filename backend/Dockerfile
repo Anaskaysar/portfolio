@@ -1,7 +1,7 @@
 # Use Python 3.12
 FROM python:3.12-slim
 
-# Set environment variables (prevents Python from buffering output)
+# Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
@@ -24,5 +24,5 @@ RUN python manage.py collectstatic --noinput
 # Expose port
 EXPOSE 8080
 
-# Run startup script
+# Run startup script (DO NOT override this in gcloud deploy)
 CMD ["/app/start.sh"]

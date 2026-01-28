@@ -11,7 +11,8 @@ env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   SERVICE_NAME: portfolio-backend
   REGION: us-central1
-  REPOSITORY: portfolio # You'll need to create this in Artifact Registry
+  REPOSITORY: portfolio
+  INSTANCE_CONNECTION_NAME: portfolio-backend-kaysarulanas:us-central1:portfolio-db-instance
 
 jobs:
   deploy:
@@ -43,4 +44,9 @@ jobs:
             --region $REGION \
             --platform managed \
             --allow-unauthenticated \
-            --update-env-vars="DEBUG=False"
+            --add-cloudsql-instances=$INSTANCE_CONNECTION_NAME \
+            --set-env-vars="DEBUG=False,DATABASE_URL=postgresql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@//${{ secrets.DB_NAME }}?host=/cloudsql/$INSTANCE_CONNECTION_NAME" \
+            --timeout=300 \
+            --cpu=1 \
+            --memory=512Mi \
+            --max-instances=12
