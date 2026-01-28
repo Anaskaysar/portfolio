@@ -16,7 +16,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-...') # Keep your default string here
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',') if os.environ.get('ALLOWED_HOSTS') else []
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'portfolio-backend-941596906956.us-central1.run.app,localhost,127.0.0.1').split(',')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG is handled by environment variable above
@@ -26,6 +26,7 @@ ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',') if os.environ.get
 # Security settings for Cloud Run
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 CSRF_TRUSTED_ORIGINS = [
+    "https://portfolio-backend-941596906956.us-central1.run.app",
     "https://portfolio-backend-oixpsfgnsq-uc.a.run.app",
 ]
 if os.environ.get('CSRF_TRUSTED_ORIGINS'):
