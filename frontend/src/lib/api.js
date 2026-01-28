@@ -16,7 +16,15 @@ const apiRequest = async (endpoint, options = {}) => {
             throw new Error(`API request failed: ${response.statusText}`);
         }
 
-        return await response.json();
+        const text = await response.text();
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (error) {
+            console.error(`Error parsing JSON from ${endpoint}:`, error);
+            return null;
+        }
     } catch (error) {
         console.error(`Error with API request to ${endpoint}:`, error);
         if (error.name === 'TypeError' && error.message === 'Failed to fetch') {

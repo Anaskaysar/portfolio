@@ -1,5 +1,27 @@
+import { useEffect, useState } from "react";
 import PageTransition from "../components/PageTransition.jsx";
+import { getExperiences } from "../lib/api.js";
+
 const Background = () => {
+  const [experience, setExperience] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getExperiences();
+        if (data) {
+          setExperience(data);
+        }
+      } catch (error) {
+        console.error("Error fetching experience:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <PageTransition>
       <div className="pt-28 pb-20 px-6">
@@ -12,47 +34,63 @@ const Background = () => {
               <span>Professional Experience</span>
             </h2>
 
-            <div className="bg-zinc-50 dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6">
-              <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-3">
-                <div>
-                  <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-1">
-                    IT Developer Intern (Backend)
-                  </h3>
-                  <p className="text-emerald-600 dark:text-emerald-400 font-semibold">
-                    Vosyn Inc, Toronto, Canada
-                  </p>
-                </div>
-                <div className="flex items-center gap-2 mt-2 md:mt-0">
-                  <span className="flex items-center gap-2 px-3 py-1 text-xs font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-200 dark:bg-emerald-900/50 rounded-full border border-emerald-300 dark:border-emerald-800">
-                    <span className="w-2 h-2 bg-emerald-600 dark:bg-emerald-500 rounded-full animate-pulse"></span>
-                    Current
-                  </span>
-                </div>
+            {loading ? (
+              <div className="flex justify-center py-10">
+                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-violet-600"></div>
               </div>
-              <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-4 font-semibold">
-                Aug 2025 – Present
-              </p>
+            ) : experience.length > 0 ? (
+              <div className="space-y-8">
+                {experience.map((job) => (
+                  <div key={job.id} className="bg-zinc-50 dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6">
+                    <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-3">
+                      <div>
+                        <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-1">
+                          {job.role}
+                        </h3>
+                        <p className="text-emerald-600 dark:text-emerald-400 font-semibold">
+                          {job.company}, {job.location}
+                        </p>
+                      </div>
+                      {job.current && (
+                        <div className="flex items-center gap-2 mt-2 md:mt-0">
+                          <span className="flex items-center gap-2 px-3 py-1 text-xs font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-200 dark:bg-emerald-900/50 rounded-full border border-emerald-300 dark:border-emerald-800">
+                            <span className="w-2 h-2 bg-emerald-600 dark:bg-emerald-500 rounded-full animate-pulse"></span>
+                            Current
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                    <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-4 font-semibold">
+                      {job.period}
+                    </p>
 
-              <ul className="space-y-2.5">
-                {[
-                  "Developing and maintaining CI/CD workflows using GitHub Actions and Google Cloud Platform",
-                  "Supporting cloud-based build and deployment processes, including Cloud Build triggers and Artifact Registry",
-                  "Containerizing backend services using Docker to support environment-based deployments",
-                  "Contributing to production releases and feature development following semantic versioning practices",
-                  "Collaborating with DevOps and security teams to improve automation, reliability, and secure configurations",
-                ].map((item, i) => (
-                  <li
-                    key={i}
-                    className="flex items-start gap-3 text-sm text-zinc-700 dark:text-zinc-300"
-                  >
-                    <span className="text-emerald-600 dark:text-emerald-400 mt-1 flex-shrink-0 font-bold">
-                      ▸
-                    </span>
-                    <span>{item}</span>
-                  </li>
+                    <p className="text-sm text-zinc-700 dark:text-zinc-300 mb-4">
+                      {job.description}
+                    </p>
+
+                    {job.details && job.details.length > 0 && (
+                      <ul className="space-y-2.5">
+                        {job.details.map((item, i) => (
+                          <li
+                            key={i}
+                            className="flex items-start gap-3 text-sm text-zinc-700 dark:text-zinc-300"
+                          >
+                            <span className="text-emerald-600 dark:text-emerald-400 mt-1 flex-shrink-0 font-bold">
+                              ▸
+                            </span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
                 ))}
-              </ul>
-            </div>
+              </div>
+            ) : (
+              <p className="text-center text-zinc-500 dark:text-zinc-400 py-10">
+                No professional experience found.
+              </p>
+            )}
           </div>
 
           {/* Education Section */}

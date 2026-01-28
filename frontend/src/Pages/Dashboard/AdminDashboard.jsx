@@ -9,11 +9,19 @@ import {
     User
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import ExperienceForm from "../../components/DashboardComps/ExperienceForm";
 import ExperienceTable from "../../components/DashboardComps/ExperienceTable";
+import PersonalInfoForm from "../../components/DashboardComps/PersonalInfoForm";
 import ProjectForm from "../../components/DashboardComps/ProjectForm";
 import ProjectTable from "../../components/DashboardComps/ProjectTable";
+import ResearchForm from "../../components/DashboardComps/ResearchForm";
+import ResearchTable from "../../components/DashboardComps/ResearchTable";
 import Sidebar from "../../components/DashboardComps/Sidebar";
+import SkillForm from "../../components/DashboardComps/SkillForm";
+import SkillsTable from "../../components/DashboardComps/SkillsTable";
 import StatCard from "../../components/DashboardComps/StatCard";
+import TimelineForm from "../../components/DashboardComps/TimelineForm";
+import TimelineTable from "../../components/DashboardComps/TimelineTable";
 import * as api from "../../lib/api";
 
 const AdminDashboard = () => {
@@ -25,7 +33,8 @@ const AdminDashboard = () => {
   const [research, setResearch] = useState([]);
   const [timeline, setTimeline] = useState([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
-  const [editingProject, setEditingProject] = useState(null);
+  const [editingItem, setEditingItem] = useState(null);
+  const [personalInfo, setPersonalInfo] = useState(null);
   const [loading, setLoading] = useState(false);
 
   // Fetch data on mount and when activeTab changes
@@ -36,25 +45,46 @@ const AdminDashboard = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      if (activeTab === "dashboard" || activeTab === "projects") {
-        const projectsData = await api.getProjects();
+      // Always fetch stats-related data if on dashboard
+      if (activeTab === "dashboard") {
+        const [projectsData, experiencesData, skillsData, researchData, timelineData] = await Promise.all([
+          api.getProjects(),
+          api.getExperiences(),
+          api.getSkills(),
+          api.getResearch(),
+          api.getTimelineUpdates()
+        ]);
         setProjects(projectsData || []);
-      }
-      if (activeTab === "dashboard" || activeTab === "experience") {
-        const experiencesData = await api.getExperiences();
         setExperiences(experiencesData || []);
-      }
-      if (activeTab === "skills") {
-        const skillsData = await api.getSkills();
         setSkills(skillsData || []);
-      }
-      if (activeTab === "research") {
-        const researchData = await api.getResearch();
         setResearch(researchData || []);
-      }
-      if (activeTab === "timeline") {
-        const timelineData = await api.getTimelineUpdates();
         setTimeline(timelineData || []);
+      } else {
+        // Fetch specific data based on active tab
+        if (activeTab === "projects") {
+          const projectsData = await api.getProjects();
+          setProjects(projectsData || []);
+        }
+        if (activeTab === "experience") {
+          const experiencesData = await api.getExperiences();
+          setExperiences(experiencesData || []);
+        }
+        if (activeTab === "skills") {
+          const skillsData = await api.getSkills();
+          setSkills(skillsData || []);
+        }
+        if (activeTab === "research") {
+          const researchData = await api.getResearch();
+          setResearch(researchData || []);
+        }
+        if (activeTab === "timeline") {
+          const timelineData = await api.getTimelineUpdates();
+          setTimeline(timelineData || []);
+        }
+        if (activeTab === "personal") {
+          const personalData = await api.getPersonalInfo();
+          setPersonalInfo(personalData || null);
+        }
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -63,26 +93,44 @@ const AdminDashboard = () => {
     }
   };
 
-  const handleAddProject = async (newProject) => {
+  const handleAddItem = async (newItem) => {
     try {
-      await api.createProject(newProject);
+      if (activeTab === "projects") await api.createProject(newItem);
+      if (activeTab === "experience") await api.createExperience(newItem);
+      if (activeTab === "skills") await api.createSkill(newItem);
+      if (activeTab === "research") await api.createResearch(newItem);
+      if (activeTab === "timeline") await api.createTimelineUpdate(newItem);
+      
       setIsFormOpen(false);
       fetchData();
     } catch (error) {
-      console.error("Error creating project:", error);
-      alert("Failed to create project. Please try again.");
+      console.error(`Error creating ${activeTab}:`, error);
+      alert(`Failed to create ${activeTab}. Please try again.`);
     }
   };
 
-  const handleEditProject = async (updatedProject) => {
+  const handleEditItem = async (updatedItem) => {
     try {
-      await api.updateProject(updatedProject.id, updatedProject);
-      setEditingProject(null);
+      if (activeTab === "projects") await api.updateProject(updatedItem.id, updatedItem);
+      if (activeTab === "experience") await api.updateExperience(updatedItem.id, updatedItem);
+      if (activeTab === "skills") await api.updateSkill(updatedItem.id, updatedItem);
+      if (activeTab === "research") await api.updateResearch(updatedItem.id, updatedItem);
+      if (activeTab === "timeline") await api.updateTimelineUpdate(updatedItem.id, updatedItem);
+      
+      setEditingItem(null);
       setIsFormOpen(false);
       fetchData();
     } catch (error) {
-      console.error("Error updating project:", error);
-      alert("Failed to update project. Please try again.");
+      console.error(`Error updating ${activeTab}:`, error);
+      alert(`Failed to update ${activeTab}. Please try again.`);
+    }
+  };
+
+  const handleSubmit = (data) => {
+    if (data.id) {
+      handleEditItem(data);
+    } else {
+      handleAddItem(data);
     }
   };
 
@@ -110,8 +158,55 @@ const AdminDashboard = () => {
     }
   };
 
-  const openEditForm = (project) => {
-    setEditingProject(project);
+  const handleDeleteSkill = async (id) => {
+    if (window.confirm("Are you sure you want to delete this skill category?")) {
+      try {
+        await api.deleteSkill(id);
+        fetchData();
+      } catch (error) {
+        console.error("Error deleting skill:", error);
+        alert("Failed to delete skill. Please try again.");
+      }
+    }
+  };
+
+  const handleDeleteResearch = async (id) => {
+    if (window.confirm("Are you sure you want to delete this research item?")) {
+      try {
+        await api.deleteResearch(id);
+        fetchData();
+      } catch (error) {
+        console.error("Error deleting research:", error);
+        alert("Failed to delete research item. Please try again.");
+      }
+    }
+  };
+
+  const handleDeleteTimeline = async (id) => {
+    if (window.confirm("Are you sure you want to delete this timeline update?")) {
+      try {
+        await api.deleteTimelineUpdate(id);
+        fetchData();
+      } catch (error) {
+        console.error("Error deleting timeline update:", error);
+        alert("Failed to delete timeline update. Please try again.");
+      }
+    }
+  };
+
+  const handleUpdatePersonalInfo = async (updatedInfo) => {
+    try {
+      await api.updatePersonalInfo(updatedInfo.id, updatedInfo);
+      alert("Personal information updated successfully!");
+      fetchData();
+    } catch (error) {
+      console.error("Error updating personal info:", error);
+      alert("Failed to update personal information. Please try again.");
+    }
+  };
+
+  const openEditForm = (item) => {
+    setEditingItem(item);
     setIsFormOpen(true);
   };
 
@@ -160,13 +255,30 @@ const AdminDashboard = () => {
           </div>
           
           <div className="flex items-center gap-4">
-            {(activeTab === "projects" || activeTab === "experience" || activeTab === "skills" || activeTab === "research" || activeTab === "timeline") && (
+            {activeTab === "research" ? (
+              <div className="flex items-center gap-3">
+                <button 
+                  onClick={() => { setEditingItem({ type: 'publication' }); setIsFormOpen(true); }}
+                  className="flex items-center gap-2 px-4 py-2 bg-violet-600 hover:bg-violet-700 text-white rounded-xl font-medium transition-all shadow-lg shadow-violet-500/20 active:scale-95"
+                >
+                  <Plus size={20} />
+                  <span>Add Publication</span>
+                </button>
+                <button 
+                  onClick={() => { setEditingItem({ type: 'experience' }); setIsFormOpen(true); }}
+                  className="flex items-center gap-2 px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-xl font-medium transition-all shadow-lg shadow-cyan-500/20 active:scale-95"
+                >
+                  <Plus size={20} />
+                  <span>Add Research Experience</span>
+                </button>
+              </div>
+            ) : (activeTab === "projects" || activeTab === "experience" || activeTab === "skills" || activeTab === "timeline") && (
               <button 
-                onClick={() => { setEditingProject(null); setIsFormOpen(true); }}
+                onClick={() => { setEditingItem(null); setIsFormOpen(true); }}
                 className="flex items-center gap-2 px-4 py-2 bg-violet-600 hover:bg-violet-700 text-white rounded-xl font-medium transition-all shadow-lg shadow-violet-500/20 active:scale-95"
               >
                 <Plus size={20} />
-                <span>Add {activeTab === "projects" ? "Project" : activeTab === "experience" ? "Experience" : activeTab === "skills" ? "Skill" : activeTab === "research" ? "Research" : "Update"}</span>
+                <span>Add {activeTab === "projects" ? "Project" : activeTab === "experience" ? "Experience" : activeTab === "skills" ? "Skill" : "Update"}</span>
               </button>
             )}
           </div>
@@ -214,15 +326,41 @@ const AdminDashboard = () => {
                   </div>
 
                   <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6">
+                    <h3 className="text-lg font-bold text-zinc-900 dark:text-white mb-4">Recent Experience</h3>
+                    <div className="space-y-3">
+                      {experiences.slice(0, 3).map(exp => (
+                        <div key={exp.id} className="flex items-center gap-3 p-3 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg">
+                          <GraduationCap size={20} className="text-cyan-500" />
+                          <div className="flex-1">
+                            <div className="font-medium text-zinc-900 dark:text-white">{exp.role}</div>
+                            <div className="text-xs text-zinc-500">{exp.company}</div>
+                          </div>
+                        </div>
+                      ))}
+                      {experiences.length === 0 && (
+                        <p className="text-sm text-zinc-500 text-center py-4">No experience yet. Add your work history!</p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6">
                     <h3 className="text-lg font-bold text-zinc-900 dark:text-white mb-4">Quick Actions</h3>
-                    <div className="space-y-2">
-                      <button onClick={() => setActiveTab("projects")} className="w-full text-left p-3 bg-zinc-50 dark:bg-zinc-800/50 hover:bg-violet-50 dark:hover:bg-violet-900/20 rounded-lg transition-colors">
-                        <div className="font-medium text-zinc-900 dark:text-white">Manage Projects</div>
-                        <div className="text-xs text-zinc-500">Add, edit, or remove projects</div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <button onClick={() => setActiveTab("projects")} className="text-left p-3 bg-zinc-50 dark:bg-zinc-800/50 hover:bg-violet-50 dark:hover:bg-violet-900/20 rounded-lg transition-colors">
+                        <div className="font-medium text-zinc-900 dark:text-white">Projects</div>
+                        <div className="text-xs text-zinc-500">Manage work</div>
                       </button>
-                      <button onClick={() => setActiveTab("experience")} className="w-full text-left p-3 bg-zinc-50 dark:bg-zinc-800/50 hover:bg-violet-50 dark:hover:bg-violet-900/20 rounded-lg transition-colors">
-                        <div className="font-medium text-zinc-900 dark:text-white">Update Experience</div>
-                        <div className="text-xs text-zinc-500">Manage work history</div>
+                      <button onClick={() => setActiveTab("experience")} className="text-left p-3 bg-zinc-50 dark:bg-zinc-800/50 hover:bg-violet-50 dark:hover:bg-violet-900/20 rounded-lg transition-colors">
+                        <div className="font-medium text-zinc-900 dark:text-white">Experience</div>
+                        <div className="text-xs text-zinc-500">Work history</div>
+                      </button>
+                      <button onClick={() => setActiveTab("skills")} className="text-left p-3 bg-zinc-50 dark:bg-zinc-800/50 hover:bg-violet-50 dark:hover:bg-violet-900/20 rounded-lg transition-colors">
+                        <div className="font-medium text-zinc-900 dark:text-white">Skills</div>
+                        <div className="text-xs text-zinc-500">Tech stack</div>
+                      </button>
+                      <button onClick={() => setActiveTab("personal")} className="text-left p-3 bg-zinc-50 dark:bg-zinc-800/50 hover:bg-violet-50 dark:hover:bg-violet-900/20 rounded-lg transition-colors">
+                        <div className="font-medium text-zinc-900 dark:text-white">Profile</div>
+                        <div className="text-xs text-zinc-500">Personal info</div>
                       </button>
                     </div>
                   </div>
@@ -272,7 +410,7 @@ const AdminDashboard = () => {
                   {experiences.length > 0 ? (
                     <ExperienceTable 
                       experiences={experiences} 
-                      onEdit={() => {}} 
+                      onEdit={openEditForm} 
                       onDelete={handleDeleteExperience} 
                     />
                   ) : (
@@ -293,11 +431,21 @@ const AdminDashboard = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
               >
-                <PlaceholderSection 
-                  icon={Code} 
-                  title="Skills Management" 
-                  description="Manage your technical skills and capabilities. Forms coming soon!"
-                />
+                <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 overflow-hidden">
+                  {skills.length > 0 ? (
+                    <SkillsTable 
+                      skills={skills} 
+                      onEdit={openEditForm}
+                      onDelete={handleDeleteSkill} 
+                    />
+                  ) : (
+                    <div className="text-center py-20">
+                      <Code size={64} className="mx-auto mb-4 text-zinc-300" />
+                      <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-2">No Skills Added</h3>
+                      <p className="text-zinc-500">Add your technical skills to showcase your expertise!</p>
+                    </div>
+                  )}
+                </div>
               </motion.div>
             )}
 
@@ -308,11 +456,21 @@ const AdminDashboard = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
               >
-                <PlaceholderSection 
-                  icon={GraduationCap} 
-                  title="Research & Publications" 
-                  description="Manage your research work and publications. Forms coming soon!"
-                />
+                <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 overflow-hidden">
+                  {research.length > 0 ? (
+                    <ResearchTable 
+                      research={research} 
+                      onEdit={openEditForm}
+                      onDelete={handleDeleteResearch} 
+                    />
+                  ) : (
+                    <div className="text-center py-20">
+                      <GraduationCap size={64} className="mx-auto mb-4 text-zinc-300" />
+                      <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-2">No Research Items</h3>
+                      <p className="text-zinc-500">Add your publications and research experience!</p>
+                    </div>
+                  )}
+                </div>
               </motion.div>
             )}
 
@@ -323,11 +481,21 @@ const AdminDashboard = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
               >
-                <PlaceholderSection 
-                  icon={Calendar} 
-                  title="Timeline Updates" 
-                  description="Manage your recent updates and milestones. Forms coming soon!"
-                />
+                <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 overflow-hidden">
+                  {timeline.length > 0 ? (
+                    <TimelineTable 
+                      timeline={timeline} 
+                      onEdit={openEditForm}
+                      onDelete={handleDeleteTimeline} 
+                    />
+                  ) : (
+                    <div className="text-center py-20">
+                      <Calendar size={64} className="mx-auto mb-4 text-zinc-300" />
+                      <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-2">No Timeline Updates</h3>
+                      <p className="text-zinc-500">Add milestones and updates to your career timeline!</p>
+                    </div>
+                  )}
+                </div>
               </motion.div>
             )}
 
@@ -338,11 +506,20 @@ const AdminDashboard = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
               >
-                <PlaceholderSection 
-                  icon={User} 
-                  title="Personal Information" 
-                  description="Update your profile and contact information. Forms coming soon!"
-                />
+                <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 overflow-hidden">
+                  {personalInfo ? (
+                    <PersonalInfoForm 
+                      info={personalInfo} 
+                      onUpdate={handleUpdatePersonalInfo} 
+                    />
+                  ) : (
+                    <div className="text-center py-20">
+                      <User size={64} className="mx-auto mb-4 text-zinc-300" />
+                      <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-2">No Personal Info Found</h3>
+                      <p className="text-zinc-500">Please contact support or check your database.</p>
+                    </div>
+                  )}
+                </div>
               </motion.div>
             )}
 
@@ -363,15 +540,45 @@ const AdminDashboard = () => {
           </AnimatePresence>
         )}
 
-        {/* Modal for Project Form */}
+        {/* Modal for Forms */}
         <AnimatePresence>
-          {isFormOpen && activeTab === "projects" && (
+          {isFormOpen && (
             <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-zinc-950/50 backdrop-blur-sm">
-              <ProjectForm 
-                project={editingProject}
-                onSubmit={editingProject ? handleEditProject : handleAddProject}
-                onCancel={() => { setIsFormOpen(false); setEditingProject(null); }}
-              />
+              {activeTab === "projects" && (
+                <ProjectForm 
+                  project={editingItem}
+                  onSubmit={handleSubmit}
+                  onCancel={() => { setIsFormOpen(false); setEditingItem(null); }}
+                />
+              )}
+              {activeTab === "experience" && (
+                <ExperienceForm 
+                  experience={editingItem}
+                  onSubmit={handleSubmit}
+                  onCancel={() => { setIsFormOpen(false); setEditingItem(null); }}
+                />
+              )}
+              {activeTab === "skills" && (
+                <SkillForm 
+                  skill={editingItem}
+                  onSubmit={handleSubmit}
+                  onCancel={() => { setIsFormOpen(false); setEditingItem(null); }}
+                />
+              )}
+              {activeTab === "research" && (
+                <ResearchForm 
+                  research={editingItem}
+                  onSubmit={handleSubmit}
+                  onCancel={() => { setIsFormOpen(false); setEditingItem(null); }}
+                />
+              )}
+              {activeTab === "timeline" && (
+                <TimelineForm 
+                  update={editingItem}
+                  onSubmit={handleSubmit}
+                  onCancel={() => { setIsFormOpen(false); setEditingItem(null); }}
+                />
+              )}
             </div>
           )}
         </AnimatePresence>

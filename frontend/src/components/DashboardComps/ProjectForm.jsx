@@ -3,7 +3,7 @@ import { Plus, X } from "lucide-react";
 import { useState } from "react";
 
 const ProjectForm = ({ project, onSubmit, onCancel }) => {
-  const [formData, setFormData] = useState(project || {
+  const defaultValues = {
     title: "",
     description: "",
     category: "fullstack",
@@ -11,6 +11,11 @@ const ProjectForm = ({ project, onSubmit, onCancel }) => {
     github_link: "",
     live_link: "",
     featured: false,
+  };
+
+  const [formData, setFormData] = useState({
+    ...defaultValues,
+    ...project
   });
 
   const [newTech, setNewTech] = useState("");
@@ -38,7 +43,7 @@ const ProjectForm = ({ project, onSubmit, onCancel }) => {
     >
       <div className="p-6 border-b border-zinc-200 dark:border-zinc-800 flex justify-between items-center">
         <h2 className="text-xl font-bold text-zinc-900 dark:text-white">
-          {project ? "Edit Project" : "Add New Project"}
+          {project?.id ? "Edit Project" : "Add New Project"}
         </h2>
         <button onClick={onCancel} className="p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg transition-colors">
           <X size={20} />
@@ -179,7 +184,7 @@ const ProjectForm = ({ project, onSubmit, onCancel }) => {
             type="submit"
             className="px-6 py-2 bg-violet-600 hover:bg-violet-700 text-white font-medium rounded-xl transition-all shadow-lg shadow-violet-500/20 active:scale-95"
           >
-            {project ? "Save Changes" : "Create Project"}
+            {project?.id ? "Save Changes" : "Create Project"}
           </button>
         </div>
       </form>

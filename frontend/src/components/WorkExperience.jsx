@@ -1,6 +1,36 @@
-import { experience } from "../lib/data.js";
+import { useEffect, useState } from "react";
+import { getExperiences } from "../lib/api.js";
 
 const WorkExperience = () => {
+  const [experience, setExperience] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getExperiences();
+        if (data) {
+          setExperience(data);
+        }
+      } catch (error) {
+        console.error("Error fetching experience:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center py-20">
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-violet-600"></div>
+      </div>
+    );
+  }
+
+  if (experience.length === 0) return null;
+
   return (
     <section className="py-20 px-6">
       <div className="max-w-6xl mx-auto">
@@ -29,6 +59,16 @@ const WorkExperience = () => {
                 <p className="text-lg text-zinc-700 dark:text-zinc-300 leading-relaxed max-w-2xl">
                   {job.description}
                 </p>
+                {job.details && job.details.length > 0 && (
+                  <ul className="mt-4 space-y-2">
+                    {job.details.map((detail, i) => (
+                      <li key={i} className="flex items-start gap-2 text-sm text-zinc-600 dark:text-zinc-400">
+                        <span className="text-violet-500 mt-1">•</span>
+                        <span>{detail}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
             </div>
           ))}
