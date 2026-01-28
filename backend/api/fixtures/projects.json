@@ -96,5 +96,254 @@
       "live_link": "https://new-rentoor-react.web.app/",
       "created_at": "2023-07-01T12:00:00Z"
     }
+  },
+  {
+    "model": "api.workexperience",
+    "pk": 1,
+    "fields": {
+      "role": "IT Developer Intern (Backend)",
+      "company": "Vosyn Inc",
+      "location": "Toronto, Canada",
+      "period": "Aug 2025 – Present",
+      "current": true,
+      "description": "Developing and maintaining CI/CD workflows, supporting cloud-based build processes, and containerizing backend services.",
+      "details": [
+        "Developing and maintaining CI/CD workflows using GitHub Actions and Google Cloud Platform",
+        "Supporting cloud-based build and deployment processes, including Cloud Build triggers and Artifact Registry",
+        "Containerizing backend services using Docker to support environment-based deployments",
+        "Contributing to production releases and feature development following semantic versioning practices",
+        "Collaborating with DevOps and security teams to improve automation, reliability, and secure configurations"
+      ],
+      "order": 0,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "api.skill",
+    "pk": 1,
+    "fields": {
+      "category": "Programming Languages",
+      "items": ["Python", "JavaScript", "C++"],
+      "order": 0,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "api.skill",
+    "pk": 2,
+    "fields": {
+      "category": "Backend & APIs",
+      "items": [
+        "Django",
+        "Django REST Framework (DRF)",
+        "RESTful API Development",
+        "Authentication & Authorization",
+        "Role-Based Access Control"
+      ],
+      "order": 1,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "api.skill",
+    "pk": 3,
+    "fields": {
+      "category": "Databases",
+      "items": [
+        "PostgreSQL",
+        "SQLite",
+        "Database Design",
+        "Django ORM",
+        "Migrations",
+        "Query Optimization"
+      ],
+      "order": 2,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "api.skill",
+    "pk": 4,
+    "fields": {
+      "category": "Cloud & DevOps",
+      "items": [
+        "Google Cloud Platform (GCP)",
+        "Docker",
+        "GitHub Actions (CI/CD)",
+        "Cloud Build",
+        "Artifact Registry",
+        "Cloud Deployment"
+      ],
+      "order": 3,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "api.skill",
+    "pk": 5,
+    "fields": {
+      "category": "Tools & Platforms",
+      "items": [
+        "Git",
+        "GitHub",
+        "Linux",
+        "Docker (Basic)",
+        "Render"
+      ],
+      "order": 4,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "api.skill",
+    "pk": 6,
+    "fields": {
+      "category": "Development Practices",
+      "items": [
+        "API Testing & Debugging",
+        "Logging & Error Handling",
+        "Unit Testing (Basic)",
+        "Modular Backend Architecture",
+        "Environment-Based Configuration"
+      ],
+      "order": 5,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "api.skill",
+    "pk": 7,
+    "fields": {
+      "category": "Frontend (Basic)",
+      "items": [
+        "HTML",
+        "CSS",
+        "React"
+      ],
+      "order": 6,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "api.research",
+    "pk": 1,
+    "fields": {
+      "title": "Accurate Prediction of Pulmonary Fibrosis Progression Using EfficientNet and Quantile Regression: A High Performing Approach",
+      "venue": "IEEE TENSYMP 2023, Canberra, Australia",
+      "date": "Sept 2023",
+      "description": "Co-authored research paper presented at the 2023 IEEE Region 10 Symposium focusing on AI-driven medical image analysis and machine learning applications in healthcare.",
+      "tags": [
+        "Machine Learning",
+        "Deep Learning",
+        "Medical Imaging",
+        "EfficientNet",
+        "Quantile Regression"
+      ],
+      "link": "https://ieeexplore.ieee.org/abstract/document/10223673",
+      "type": "publication",
+      "supervisor": "",
+      "institution": "",
+      "featured": true,
+      "order": 0,
+      "created_at": "2023-09-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "api.research",
+    "pk": 2,
+    "fields": {
+      "title": "Graduate Research Assistant",
+      "venue": "",
+      "date": "",
+      "description": "Continued research on AI-driven projects, machine learning, and deep learning applications. Contributed to data preprocessing, model training, and evaluation workflows in medical image analysis.",
+      "tags": [],
+      "link": "",
+      "type": "experience",
+      "supervisor": "Prof. Dr. Tanzilur Rahman",
+      "institution": "North South University, Bangladesh",
+      "featured": false,
+      "order": 1,
+      "created_at": "2023-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "api.timelineupdate",
+    "pk": 1,
+    "fields": {
+      "date": "Apr 2025",
+      "title": "Graduation",
+      "description": "Successfully completed my M.Sc. in Computational Sciences at Laurentian University with a CGPA of 9.10/10.",
+      "type": "graduation",
+      "link": "",
+      "order": 0,
+      "created_at": "2025-04-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "api.timelineupdate",
+    "pk": 2,
+    "fields": {
+      "date": "Apr 2025",
+      "title": "Award",
+      "description": "Received the Mabel Jean and Bob Lye Memorial Award (2024–2025) for academic excellence.",
+      "type": "award",
+      "link": "",
+      "order": 1,
+      "created_at": "2025-04-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "api.timelineupdate",
+    "pk": 3,
+    "fields": {
+      "date": "Sept 2023",
+      "title": "Online Presentation",
+      "description": "On Sept 5th 2023, I along with my team mates successfully presented our research paper \"Accurate Prediction of Pulmonary Fibrosis Progression Using EfficientNet and Quantile Regression: A High Performing Approach\" in TENSYMP 2023 which was held in Canberra, Australia.",
+      "type": "presentation",
+      "link": "https://ieeexplore.ieee.org/abstract/document/10223673",
+      "order": 2,
+      "created_at": "2023-09-05T00:00:00Z"
+    }
+  },
+  {
+    "model": "api.timelineupdate",
+    "pk": 4,
+    "fields": {
+      "date": "Sept 2023",
+      "title": "Masters Study",
+      "description": "On Sept 6th I started my Masters in Computational Sciences at Laurentian University.",
+      "type": "education",
+      "link": "",
+      "order": 3,
+      "created_at": "2023-09-06T00:00:00Z"
+    }
+  },
+  {
+    "model": "api.timelineupdate",
+    "pk": 5,
+    "fields": {
+      "date": "June 2023",
+      "title": "Paper Accepted",
+      "description": "2023 IEEE Region 10 Symposium (TENSYMP) - \"Accurate Prediction of Pulmonary Fibrosis Progression Using EfficientNet and Quantile Regression: A High Performing Approach\".",
+      "type": "publication",
+      "link": "https://ieeexplore.ieee.org/abstract/document/10223673",
+      "order": 4,
+      "created_at": "2023-06-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "api.personalinfo",
+    "pk": 1,
+    "fields": {
+      "name": "Kaysarul Anas",
+      "title": "Junior Django Developer",
+      "tagline": "Passionate Backend Developer specializing in Django and cloud infrastructure, with strong React skills for building complete, scalable web applications.",
+      "email": "kaysarulanas2@gmail.com",
+      "availability": "Open to work",
+      "github": "https://github.com/anaskaysar",
+      "linkedin": "https://www.linkedin.com/in/kaysarulanas/",
+      "x": "https://x.com/KaysarulA12768",
+      "updated_at": "2025-01-01T00:00:00Z"
+    }
   }
 ]
