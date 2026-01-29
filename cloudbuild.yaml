@@ -18,7 +18,7 @@ steps:
           --image us-central1-docker.pkg.dev/$PROJECT_ID/portfolio/portfolio-backend:$COMMIT_SHA \
           --command "python","manage.py","migrate" \
           --set-cloudsql-instances=$PROJECT_ID:us-central1:portfolio-db-instance \
-          --set-env-vars "DATABASE_URL=postgres://\${_DB_USER}:\${_DB_PASSWORD}@/portfolio_db?host=/cloudsql/$PROJECT_ID:us-central1:portfolio-db-instance" \
+          --set-env-vars "DATABASE_URL=postgresql://${_DB_USER}:${_DB_PASSWORD}@/portfolio_db?host=/cloudsql/$PROJECT_ID:us-central1:portfolio-db-instance" \
           --region us-central1 \
           --execute-now --wait --quiet
 
@@ -36,7 +36,7 @@ steps:
       - '--add-cloudsql-instances'
       - '$PROJECT_ID:us-central1:portfolio-db-instance'
       - '--update-env-vars'
-      - 'DATABASE_URL=postgres://\${_DB_USER}:\${_DB_PASSWORD}@/portfolio_db?host=/cloudsql/$PROJECT_ID:us-central1:portfolio-db-instance,DEBUG=False,ALLOWED_HOSTS=*'
+      - 'DATABASE_URL=postgresql://${_DB_USER}:${_DB_PASSWORD}@/portfolio_db?host=/cloudsql/$PROJECT_ID:us-central1:portfolio-db-instance,DEBUG=False,ALLOWED_HOSTS=*'
       - '--allow-unauthenticated'
 
 images:
