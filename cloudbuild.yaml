@@ -1,50 +1,52 @@
 steps:
-  # Build the container image
+  # 1. Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/portfolio/portfolio-backend:$COMMIT_SHA', './backend']
+    args:
+      [
+        'build',
+        '-t',
+        'us-central1-docker.pkg.dev/$PROJECT_ID/portfolio/portfolio-backend:$COMMIT_SHA',
+        './backend'
+      ]
 
-  # Push the container image to Artifact Registry
+  # 2. Push the image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/portfolio/portfolio-backend:$COMMIT_SHA']
+    args:
+      [
+        'push',
+        'us-central1-docker.pkg.dev/$PROJECT_ID/portfolio/portfolio-backend:$COMMIT_SHA'
+      ]
 
-  # Run migrations using a Cloud Run Job (or temporary container)
-  # Note: This assumes the service account has Cloud Run Admin and Cloud SQL Client roles
+  # 3. Run Django migrations (Cloud Run Job)
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'bash'
     args:
       - '-c'
       - |
-        gcloud run jobs create migrate-job-$(date +%s) \
+        gcloud run jobs create migrate-job-$COMMIT_SHA \
           --image us-central1-docker.pkg.dev/$PROJECT_ID/portfolio/portfolio-backend:$COMMIT_SHA \
-          --command "python","manage.py","migrate" \
+          --command python \
+          --args manage.py,migrate \
           --set-cloudsql-instances=$PROJECT_ID:us-central1:portfolio-db-instance \
-          --set-env-vars "DATABASE_URL=postgresql://${_DB_USER}:${_DB_PASSWORD}@/portfolio_db?host=/cloudsql/$PROJECT_ID:us-central1:portfolio-db-instance" \
+          --set-env-vars DATABASE_URL=postgresql://${_DB_USER}:${_DB_PASSWORD}@/portfolio_db?host=/cloudsql/$PROJECT_ID:us-central1:portfolio-db-instance \
           --region us-central1 \
-          --execute-now --wait --quiet
+          --execute-now \
+          --wait \
+          --quiet
 
-  # Deploy container image to Cloud Run
+  # 4. Deploy backend to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'gcloud'
     args:
-      - 'run'
-      - 'deploy'
-      - 'portfolio-backend'
-      - '--image'
-      - 'us-central1-docker.pkg.dev/$PROJECT_ID/portfolio/portfolio-backend:$COMMIT_SHA'
-      - '--region'
-      - 'us-central1'
-      - '--add-cloudsql-instances'
-      - '$PROJECT_ID:us-central1:portfolio-db-instance'
-      - '--update-env-vars'
-      - 'DATABASE_URL=postgresql://${_DB_USER}:${_DB_PASSWORD}@/portfolio_db?host=/cloudsql/$PROJECT_ID:us-central1:portfolio-db-instance,DEBUG=False,ALLOWED_HOSTS=*'
-      - '--allow-unauthenticated'
-
-images:
-  - 'us-central1-docker.pkg.dev/$PROJECT_ID/portfolio/portfolio-backend:$COMMIT_SHA'
-
-substitutions:
-  _DB_USER: 'portfolio_user'
-  _DB_PASSWORD: '' # Should be set in the trigger or via Secret Manager
-
-options:
-  logging: CLOUD_LOGGING_ONLY
+      [
+        'run',
+        'deploy',
+        'portfolio-backend',
+        '--image',
+        'us-central1-docker.pkg.dev/$PROJECT_ID/portfolio/portfolio-backend:$COMMIT_SHA',
+        '--region',
+        'us-central1',
+        '--add-cloudsql-instances',
+        '$PROJECT_ID:us-central1:portfolio-db-instance',
+        '--update-env-vars',
+        'DA
