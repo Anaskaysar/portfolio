@@ -8,11 +8,13 @@ echo "Starting Django application..."
 # Wait for Cloud SQL proxy to be ready
 sleep 5
 
-# Run migrations synchronously
-echo "Running database migrations..."
-python3 manage.py migrate --noinput
+# Run migrations in the background (optional, Cloud Build handles this now)
+(
+  sleep 10
+  python3 manage.py migrate --noinput || echo "Background migration failed"
+) &
 
-echo "Migrations completed successfully!"
+echo "Startup script continuing..."
 
 # Start Gunicorn
 echo "Starting Gunicorn on port ${PORT:-8080}..."

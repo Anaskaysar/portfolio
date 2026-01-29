@@ -28,9 +28,11 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 CSRF_TRUSTED_ORIGINS = [
     "https://portfolio-backend-941596906956.us-central1.run.app",
     "https://portfolio-backend-oixpsfgnsq-uc.a.run.app",
+    "https://kaysarulanas.me",
+    "https://www.kaysarulanas.me",
 ]
 if os.environ.get('CSRF_TRUSTED_ORIGINS'):
-    CSRF_TRUSTED_ORIGINS += os.environ.get('CSRF_TRUSTED_ORIGINS').split(',')
+    CSRF_TRUSTED_ORIGINS += [origin.strip() for origin in os.environ.get('CSRF_TRUSTED_ORIGINS').split(',') if origin.strip()]
 
 
 # Application definition
