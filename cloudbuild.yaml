@@ -45,3 +45,6 @@ images:
 substitutions:
   _DB_USER: 'portfolio_user'
   _DB_PASSWORD: '' # Should be set in the trigger or via Secret Manager
+
+options:
+  logging: CLOUD_LOGGING_ONLY
