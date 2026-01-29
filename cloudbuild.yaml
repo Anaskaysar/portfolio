@@ -17,7 +17,7 @@ steps:
         'us-central1-docker.pkg.dev/$PROJECT_ID/portfolio/portfolio-backend:$COMMIT_SHA'
       ]
 
-  # 3. Run Django migrations (Cloud Run Job)
+  # 3. Run Django migrations
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'bash'
     args:
@@ -34,7 +34,7 @@ steps:
           --wait \
           --quiet
 
-  # 4. Deploy backend to Cloud Run
+  # 4. Deploy backend
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'gcloud'
     args:
@@ -55,10 +55,6 @@ steps:
 
 images:
   - us-central1-docker.pkg.dev/$PROJECT_ID/portfolio/portfolio-backend:$COMMIT_SHA
-
-substitutions:
-  _DB_USER: portfolio_user
-  _DB_PASSWORD: ${_DB_PASSWORD}
 
 options:
   logging: CLOUD_LOGGING_ONLY
